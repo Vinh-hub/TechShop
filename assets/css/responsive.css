@@ -1,0 +1,98 @@
+/* Mobile & Tablet */
+@media(max-width: 63.938em){
+    .header_navbar-list{
+        display: none;
+    }
+    .header_navbar-discount{
+        display: none;
+    }
+    .header {
+        background-color: var(--white-color);
+        height: 100px;
+        padding: 8px 0;
+    }
+    .header_search-input{
+        padding: 0 10px 0 0;
+        width: 100%;
+        height: 80%;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        overflow-wrap: break-word;
+        vertical-align: sub;
+    }
+    .header_logo-img {
+        display: none;
+    }
+    .header_navbar-search {
+        display: flex;
+        justify-content: space-between;
+        /* gap: 20px; */
+        align-items: center;
+        width: 80%;
+    }
+    .header_search-icon{
+        display: none;
+    }
+    .header_search-button{
+        font-size: 1.2rem;
+        width: 30px;
+    }
+    .header_navbar-item-mobile{
+        display: block;
+        font-size: 15px;
+    }
+    .hide-on-mobile-table{
+        display: none;
+    }
+    .pagination-list {
+        
+        font-size: 1rem;
+    }
+    .pagination-number-link {
+        text-decoration: none;
+        font-size: 2rem;
+        margin: 0 2px;
+        padding: 2.5px 10px;
+    }
+    .row-end{
+        margin: 0 10px;
+    }
+    .end__heading-more{
+        display: flex;
+        flex-direction: column;
+        margin: 0 10px;
+    }
+    .end__certificate{
+        display: flex;
+        /* flex-wrap: wrap; */
+        /* justify-content: center; */
+        width: 100%;
+    }
+    .end-certificate-link{
+        margin-top: 10px;
+        margin-right: 0;
+    }
+    .end-certificate-img,
+    .end-certificate-img-HG{
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        display: none;
+    }
+
+}
+
+/* Mobile */
+@media(max-width: 46.188em){
+    .product-item-group {
+        height: 348px;
+    }
+}
+
+/* Tablet */
+@media(min-width: 46.188em) and (max-width: 63.938em){
+
+}

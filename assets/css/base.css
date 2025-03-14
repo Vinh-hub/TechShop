@@ -1,0 +1,161 @@
+:root{
+    --primary-color: #0b74e5;
+    --background-color: #f5f5fa;
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #333;
+    --header-color:#bbe4c8;
+    --icon-color: rgb(88, 88, 99);
+    --icon-dis-color:rgb(11, 116, 229);
+    --search-item-color:rgb(39, 39, 42);
+    --hover-color: #dad5d5;
+    --box-shadow:0 1px 3.123rem 0 rgba(153, 150, 150, 0.2);
+    --boder-color: #dbdbdb;
+}
+
+*{
+    box-sizing: inherit; /*ke thua box-sizing*/
+}
+
+html{
+    font-size: 62.5%;/* bang 10px, 100% = 16px*/
+    line-height: 1.6rem;
+    font-family: Inter, Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+}
+  
+.title{
+    font-size: 4.0rem;
+    margin-left: 40px;
+}
+.title_menu{
+    display: flex;
+    align-items: center;
+}
+.btn {
+    min-width: 142px;
+    height: 34px;
+    text-decoration: none;
+    border: none;
+    border-radius: 2px;
+    font-size: 1.5rem;
+    background-color: var(--white-color);
+    outline: none;
+    cursor: pointer;
+    color: var(--text-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn--primary {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.btn-custom,
+.btn-custom-price{
+    border: transparent;
+    background-color: rgba(0, 0, 0, 0,1);
+    height: 34px;
+    min-width: 100px;
+    border-radius: 8px;
+    margin: 3px;
+    cursor: pointer;
+}
+.btn-custom.btn--primary{
+    color: var(--white-color);
+    background-color: var(--primary-color);
+}
+#btn-more{
+  border: transparent;
+  background-color: rgba(0, 0, 0, 0,1);
+  height: 34px;
+  min-width: 50px;
+  border-radius: 8px;
+  margin: 3px;
+  cursor: pointer;
+}
+.fa-google {
+    background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55% / 150% 150% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+  /* Animation */
+  @keyframes fadIn {
+    from{
+      opacity: 0;
+    }
+    to{
+      opacity: 1;
+    }
+  }
+  @keyframes growth{
+    from{
+      opacity: 0;
+      transform: scale(var(--grow-from));
+    }
+    to{
+      opacity: 1;
+      transform: scale(var(--grow-to));
+    }
+  }
+  @keyframes logomove{
+    from{
+        opacity: 0;
+        transform: rotate(40deg);
+    }
+    to{
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+  }
+  @keyframes itemmove{
+    from{
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  /* Modal */
+  .modal{
+    background-color: var(--primary-color);
+    width: 100%;
+    height: 644px;
+    display: flex;
+    /* justify-content: space-around; */
+  }
+  .modal__body{
+    width: 500px;
+    background-color: var(--white-color);
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    border-radius: 5px;
+    --grow-from: 0.7;
+    --grow-to: 1;
+    animation: growth linear 0.1s;
+  }
+  .modal__img{
+    /* position: relative; */
+    margin: auto;
+    width: 400px;
+    height: 300px;
+    animation: logomove ease-in-out 0.1s;
+  }
+
+  .modal-review{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(51, 51, 51, 0.3);
+    animation: fadIn linear 0.1s;
+    /* display: none; */
+    display: flex;
+    z-index: 1000;
+  }
