@@ -103,11 +103,11 @@ CREATE TABLE `khuyenmai` (
 --
 
 INSERT INTO `khuyenmai` (`MaKM`, `TenKM`, `LoaiKM`, `GiaTriKM`, `NgayBD`, `NgayKT`) VALUES
-(1, 'Không khuyến mãi', 'Nothing', 0, '2019-04-08 00:00:00', '2022-04-17 00:00:00'),
-(2, 'Giảm giá', 'GiamGia', 500000, '2019-05-01 00:00:00', '2019-05-31 00:00:00'),
-(3, 'Giá rẻ online', 'GiaReOnline', 650000, '2019-05-01 00:00:00', '2019-05-31 00:00:00'),
-(4, 'Trả góp', 'TraGop', 0, '2019-05-01 00:00:00', '2019-05-31 00:00:00'),
-(5, 'Mới ra mắt', 'MoiRaMat', 0, '2019-05-01 00:00:00', '2019-05-31 00:00:00');
+(1, 'Không khuyến mãi', 'Nothing', 0, '2025-04-08 00:00:00', '2027-04-17 00:00:00'),
+(2, 'Giảm giá', 'GiamGia', 500000, '2025-05-01 00:00:00', '2027-05-31 00:00:00'),
+(3, 'Giá rẻ online', 'GiaReOnline', 650000, '2025-05-01 00:00:00', '2026-05-31 00:00:00'),
+(4, 'Trả góp', 'TraGop', 0, '2025-05-01 00:00:00', '2030-05-31 00:00:00'),
+(5, 'Mới ra mắt', 'MoiRaMat', 0, '2025-05-01 00:00:00', '2026-05-31 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -127,6 +127,10 @@ CREATE TABLE `loaisanpham` (
 --
 
 INSERT INTO `loaisanpham` (`MaLSP`, `TenLSP`, `HinhAnh`, `Mota`) VALUES
+(1, 'Smartphone', '', 'Các điện thoại thông minh'),
+(2, 'Laptop', '', 'Các sản phẩm Laptop'),
+(3, 'Smartwatch', '', 'Các sản phẩm đồng hồ thông minh'),
+(4, 'Phụ kiện', '', 'Các sản phẩm phụ kiện');
 
 
 -- --------------------------------------------------------
@@ -153,10 +157,8 @@ CREATE TABLE `nguoidung` (
 -- Đang đổ dữ liệu cho bảng `nguoidung`
 --
 
-INSERT INTO `nguoidung` (`MaND`, `Ho`, `Ten`, `GioiTinh`, `SDT`, `Email`, `DiaChi`, `TaiKhoan`, `MatKhau`, `MaQuyen`, `TrangThai`) VALUES
-(1, 'Tran', 'Hoang', '', '0123456789', 'th@gmail.com', '', 'Hoang016', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),
-(2, 'Nguyen', 'Danh', '', '0123456789', '', '', 'Abc', '202cb962ac59075b964b07152d234b70', 1, 1),
-(4, 'Nguyễn', 'Huệ', '', '01207764668', '', '', 'Hue', '202cb962ac59075b964b07152d234b70', 1, 1);
+INSERT INTO `nguoidung` (`MaND`, `TaiKhoan`, `MatKhau`, `DiaChi`, `MaQuyen`, `TrangThai`) VALUES
+(1, 'VinhLam123123', 'e10adc3949ba59abbe56e057f20f883e', " ", 1, 1),
 
 -- --------------------------------------------------------
 
@@ -184,11 +186,24 @@ INSERT INTO `phanquyen` (`MaQuyen`, `TenQuyen`, `ChiTietQuyen`) VALUES
 --
 
 CREATE TABLE `sanpham` (
+  `MaSP` int(11) NOT NULL,
+  `MaLSP` int(11) NOT NULL,
+  `TenSP` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
+  `DonGia` int(11) NOT NULL,
+  `SoLuong` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `HinhAnh` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `MaKM` int(11) NOT NULL,
+  `DungLuong` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Mau` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `MoTa` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `TrangThai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `sanpham`
 --
 
-INSERT INTO `sanpham` () VALUES
+INSERT INTO `sanpham` ( `MaSP`, `MaLSP`, `TenSP`, `DonGia`, `SoLuong`, `HinhAnh`, `MaKM`, `DungLuong`, `Mau`, `MoTa`, `TrangThai`) VALUES
+(),
+();
 
