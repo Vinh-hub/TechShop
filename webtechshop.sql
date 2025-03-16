@@ -29,10 +29,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `chitiethoadon` (
-  `MaHD` int(11) NOT NULL,
-  `MaSP` int(11) NOT NULL,
-  `SoLuong` int(11) NOT NULL,
-  `DonGia` float NOT NULL
+  `MaHD` INT(11) NOT NULL,
+  `MaSP` INT(11) NOT NULL,
+  `SoLuong` INT(11) NOT NULL,
+  `DonGia` FLOAT NOT NULL,
+  PRIMARY KEY (`MaHD`, `MaSP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -42,11 +43,12 @@ CREATE TABLE `chitiethoadon` (
 --
 
 CREATE TABLE `danhgia` (
-  `MaSP` int(11) NOT NULL,
-  `MaND` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `SoSao` int(11) NOT NULL,
-  `BinhLuan` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `NgayLap` datetime NOT NULL
+  `MaSP` INT(11) NOT NULL,
+  `MaND` VARCHAR(10) COLLATE utf8_unicode_ci NOT NULL,
+  `SoSao` INT(11) NOT NULL,
+  `BinhLuan` VARCHAR(255) COLLATE utf8_unicode_ci NOT NULL,
+  `NgayLap` DATETIME NOT NULL,
+  PRIMARY KEY (`MaSP`, `MaND`, `NgayLap`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -72,15 +74,16 @@ INSERT INTO `danhgia` (`MaSP`, `MaND`, `SoSao`, `BinhLuan`, `NgayLap`) VALUES
 --
 
 CREATE TABLE `hoadon` (
-  `MaHD` int(11) NOT NULL,
-  `MaND` int(11) NOT NULL,
-  `NgayLap` datetime NOT NULL,
-  `NguoiNhan` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `SDT` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `DiaChi` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `PhuongThucTT` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `TongTien` float NOT NULL,
-  `TrangThai` varchar(70) COLLATE utf8_unicode_ci NOT NULL
+  `MaHD` INT(11) NOT NULL AUTO_INCREMENT,
+  `MaND` INT(11) NOT NULL,
+  `NgayLap` DATETIME NOT NULL,
+  `NguoiNhan` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
+  `SDT` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,
+  `DiaChi` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
+  `PhuongThucTT` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,
+  `TongTien` FLOAT NOT NULL,
+  `TrangThai` VARCHAR(70) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`MaHD`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -90,12 +93,13 @@ CREATE TABLE `hoadon` (
 --
 
 CREATE TABLE `khuyenmai` (
-  `MaKM` int(11) NOT NULL,
-  `TenKM` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `LoaiKM` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `GiaTriKM` float NOT NULL,
-  `NgayBD` datetime NOT NULL,
-  `NgayKT` datetime NOT NULL
+  `MaKM` INT(11) NOT NULL AUTO_INCREMENT,
+  `TenKM` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
+  `LoaiKM` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,
+  `GiaTriKM` FLOAT NOT NULL,
+  `NgayBD` DATETIME NOT NULL,
+  `NgayKT` DATETIME NOT NULL,
+  PRIMARY KEY (`MaKM`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -116,10 +120,11 @@ INSERT INTO `khuyenmai` (`MaKM`, `TenKM`, `LoaiKM`, `GiaTriKM`, `NgayBD`, `NgayK
 --
 
 CREATE TABLE `loaisanpham` (
-  `MaLSP` int(11) NOT NULL,
-  `TenLSP` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `HinhAnh` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `Mota` varchar(200) COLLATE utf8_unicode_ci NOT NULL
+  `MaLSP` INT(11) NOT NULL AUTO_INCREMENT,
+  `TenLSP` VARCHAR(70) COLLATE utf8_unicode_ci NOT NULL,
+  `HinhAnh` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
+  `Mota` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`MaLSP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -140,17 +145,13 @@ INSERT INTO `loaisanpham` (`MaLSP`, `TenLSP`, `HinhAnh`, `Mota`) VALUES
 --
 
 CREATE TABLE `nguoidung` (
-  `MaND` int(11) NOT NULL,
-  `Ho` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `Ten` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `GioiTinh` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `SDT` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `Email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `DiaChi` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `TaiKhoan` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `MatKhau` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `MaQuyen` int(11) NOT NULL,
-  `TrangThai` int(11) NOT NULL
+  `MaND` INT(11) NOT NULL AUTO_INCREMENT,
+  `TaiKhoan` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
+  `MatKhau` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
+  `DiaChi` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
+  `MaQuyen` INT(11) NOT NULL,
+  `TrangThai` INT(11) NOT NULL,
+  PRIMARY KEY (`MaND`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -167,9 +168,10 @@ INSERT INTO `nguoidung` (`MaND`, `TaiKhoan`, `MatKhau`, `DiaChi`, `MaQuyen`, `Tr
 --
 
 CREATE TABLE `phanquyen` (
-  `MaQuyen` int(11) NOT NULL,
-  `TenQuyen` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `ChiTietQuyen` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `MaQuyen` INT(11) NOT NULL AUTO_INCREMENT,
+  `TenQuyen` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL,
+  `ChiTietQuyen` VARCHAR(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`MaQuyen`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -186,17 +188,18 @@ INSERT INTO `phanquyen` (`MaQuyen`, `TenQuyen`, `ChiTietQuyen`) VALUES
 --
 
 CREATE TABLE `sanpham` (
-  `MaSP` int(11) NOT NULL,
-  `MaLSP` int(11) NOT NULL,
-  `TenSP` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `DonGia` int(11) NOT NULL,
-  `SoLuong` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `HinhAnh` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `MaKM` int(11) NOT NULL,
-  `DungLuong` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `Mau` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `MoTa` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `TrangThai` int(11) NOT NULL
+  `MaSP` INT(11) NOT NULL AUTO_INCREMENT,
+  `MaLSP` INT(11) NOT NULL,
+  `TenSP` VARCHAR(70) COLLATE utf8_unicode_ci NOT NULL,
+  `DonGia` INT(11) NOT NULL,
+  `SoLuong` INT(10) UNSIGNED NOT NULL DEFAULT '1',
+  `HinhAnh` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
+  `MaKM` INT(11) NOT NULL,
+  `DungLuong` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Mau` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
+  `MoTa` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
+  `TrangThai` INT(11) NOT NULL,
+  PRIMARY KEY (`MaSP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -207,3 +210,4 @@ INSERT INTO `sanpham` ( `MaSP`, `MaLSP`, `TenSP`, `DonGia`, `SoLuong`, `HinhAnh`
 (),
 ();
 
+COMMIT;
