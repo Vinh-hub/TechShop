@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;800&display=swap" rel="stylesheet">
 
-    <?php require_once "php/tong.php" ?>
+    <?php require_once "php/function.php" ?>
 
 </head>
 <body>

@@ -1,7 +1,7 @@
-btnSearch.addEventListener('click', ()=>{
-    window.location.href = `./Template/Category/resultSearch.htm`;
+// btnSearch.addEventListener('click', ()=>{
+//     window.location.href = `./Template/Category/resultSearch.htm`;
 
-});
+// });
 
 
 
