@@ -1,12 +1,4 @@
-// btnSearch.addEventListener('click', ()=>{
-//     window.location.href = `./Template/Category/resultSearch.htm`;
 
-// });
-
-
-
-
-// document.addEventListener("DOMContentLoaded", () => {
 //     const basePath = localStorage.getItem('basePath');
 //     const accountLink = document.getElementById('account-link'); // Tham chiếu đến thẻ tài khoản
 //     const accountIconLink = document.getElementById('account-icon-link'); // Tham chiếu đến thẻ biểu tượng tài khoản
