@@ -181,23 +181,23 @@ CREATE TABLE `phanquyen` (
 INSERT INTO `phanquyen` (`MaQuyen`, `TenQuyen`, `ChiTietQuyen`) VALUES
 (1, 'Customer', 'Khách hàng có tài khoản');
 
--- --------------------------------------------------------
+----------------------------------------------------------
 
 --
 -- Cấu trúc bảng cho bảng `sanpham`
 --
 
 CREATE TABLE `sanpham` (
-  `MaSP` INT(11) NOT NULL AUTO_INCREMENT,
   `MaLSP` INT(11) NOT NULL,
+  `MaSP` INT(11) NOT NULL AUTO_INCREMENT,
   `TenSP` VARCHAR(70) COLLATE utf8_unicode_ci NOT NULL,
   `DonGia` INT(11) NOT NULL,
-  `SoLuong` INT(10) UNSIGNED NOT NULL DEFAULT '1',
+  `Mau` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
+  `DungLuong` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
   `HinhAnh` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
   `MaKM` INT(11) NOT NULL,
-  `DungLuong` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
-  `Mau` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
   `MoTa` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
+  `SoLuong` INT(10) UNSIGNED NOT NULL DEFAULT '1',
   `TrangThai` INT(11) NOT NULL,
   PRIMARY KEY (`MaSP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -205,9 +205,5 @@ CREATE TABLE `sanpham` (
 --
 -- Đang đổ dữ liệu cho bảng `sanpham`
 --
-
-INSERT INTO `sanpham` ( `MaSP`, `MaLSP`, `TenSP`, `DonGia`, `SoLuong`, `HinhAnh`, `MaKM`, `DungLuong`, `Mau`, `MoTa`, `TrangThai`) VALUES
-(),
-();
 
 COMMIT;

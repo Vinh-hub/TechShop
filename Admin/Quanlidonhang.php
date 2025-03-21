@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Quản Lý Đơn Hàng</h1>
+
+        <!-- Ô tìm kiếm -->
+        <!-- Ô tìm kiếm -->
+<div class="search-container">
+    <input type="text" id="searchInput1" placeholder="Tìm kiếm theo thời gian hóa đơn" />
+    <input type="text" id="searchInput2" placeholder="Tìm kiếm theo tình trạng đơn hàng" />
+</div>
+
+
+        <!-- Bảng quản lý đơn hàng -->
+        <table id="ordersTable">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã đơn hàng</th>
+                    <th>Người đặt</th>
+                    <th>SĐT</th>
+                    <th>Ngày đặt</th>
+                    <th>Tình trạng</th>
+                    <th>Địa chỉ</th>
+                    <th>Số lượng</th>
+                    <th>Ghi chú</th>
+                    <th>Tổng tiền</th>
+                    <th>Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>DH001</td>
+                    <td>Nguyễn Văn A</td>
+                    <td>0912345678</td>
+                    <td>2024-12-01</td>
+                    <td>Đã giao thành công</td>
+                    <td>Hà Nội</td>
+                    <td>5</td>
+                    <td>Giao nhanh</td>
+                    <td>70.000.000đ</td>
+                    <td><button class="details-btn">Xem chi tiết</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>DH002</td>
+                    <td>Trần Thị B</td>
+                    <td>0987654321</td>
+                    <td>2024-12-02</td>
+                    <td>Chưa xử lý</td>
+                    <td>Hồ Chí Minh</td>
+                    <td>4</td>
+                    <td>Giao chậm</td>
+                    <td>3.000.000đ</td>
+                    <td><button class="details-btn">Xem chi tiết</button></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>DH003</td>
+                    <td>Trần Thị Bụt</td>
+                    <td>0987654321</td>
+                    <td>2024-12-02</td>
+                    <td>Đã hủy</td>
+                    <td>Hồ Chí Minh</td>
+                    <td>1</td>
+                    <td>Giao chậm</td>
+                    <td>300.000đ</td>
+                    <td><button class="details-btn">Xem chi tiết</button></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>DH004</td>
+                    <td>Trần Thị Bảnh</td>
+                    <td>0987654321</td>
+                    <td>2024-12-07</td>
+                    <td>Đã xác nhận</td>
+                    <td>Hồ Chí Minh</td>
+                    <td>2</td>
+                    <td>Giao chậm</td>
+                    <td>5.000.000đ</td>
+                    <td><button class="details-btn">Xem chi tiết</button></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>DH005</td>
+                    <td>Trần Thị Báo</td>
+                    <td>0987654321</td>
+                    <td>2024-12-03</td>
+                    <td>Đã giao thành công</td>
+                    <td>Hồ Chí Minh</td>
+                    <td>3</td>
+                    <td>Không ghi chú</td>
+                    <td>10.000.000đ</td>
+                    <td><button class="details-btn">Xem chi tiết</button></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>DH006</td>
+                    <td>Trần Văn Bủn</td>
+                    <td>0987654321</td>
+                    <td>2024-12-20</td>
+                    <td>Đã hủy</td>
+                    <td>Hồ Chí Minh</td>
+                    <td>1</td>
+                    <td>Cẩn thận</td>
+                    <td>1.000.000đ</td>
+                    <td><button class="details-btn">Xem chi tiết</button></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>DH007</td>
+                    <td>Trần Thị B</td>
+                    <td>0987654321</td>
+                    <td>2024-12-02</td>
+                    <td>Chưa xử lý</td>
+                    <td>Hồ Chí Minh</td>
+                    <td>1</td>
+                    <td>Giao nhanh</td>
+                    <td>500.000đ</td>
+                    <td><button class="details-btn">Xem chi tiết</button></td>
+                </tr>
+                <!-- Các dòng dữ liệu khác -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+       // Lắng nghe sự kiện khi người dùng nhấn phím Enter
+document.getElementById('searchInput1').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        // Lấy giá trị từ ô input
+        let inputValue = document.getElementById('searchInput1').value.trim();
+        
+        // Kiểm tra nếu ô input có nội dung
+        if (inputValue !== "") {
+            // Tạo URL mới với tham số tìm kiếm
+            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?search=' + encodeURIComponent(inputValue);
+            
+            // Chuyển hướng đến URL mới
+            window.location.href = newUrl;  // Điều hướng đến trang với tham số tìm kiếm
+        }
+    }
+});
+document.getElementById('searchInput2').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        // Lấy giá trị từ ô input
+        let inputValue = document.getElementById('searchInput2').value.trim();
+        
+        // Kiểm tra nếu ô input có nội dung
+        if (inputValue !== "") {
+            // Tạo URL mới với tham số tìm kiếm
+            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?search=' + encodeURIComponent(inputValue);
+            
+            // Chuyển hướng đến URL mới
+            window.location.href = newUrl;  // Điều hướng đến trang với tham số tìm kiếm
+        }
+    }
+});
+//  Xem chi tiết đơn hàng
+// Đảm bảo tài liệu HTML đã được tải xong
+document.addEventListener('DOMContentLoaded', function () {
+    // Lấy tất cả các nút "Xem chi tiết"
+    const detailsButtons = document.querySelectorAll('.details-btn');
+    
+    // Lặp qua tất cả các nút và thêm sự kiện click
+    detailsButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Khi nhấn nút, chuyển hướng tới trang Chitietmuahang.phpl
+            window.location.href = 'Chitietmuahang.php';
+        });
+    });
+});
+
+    </script>
+
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f8fa;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Container chính */
+.container {
+    width: 90%;
+    height:700px;
+    margin: 40px auto;
+   
+}
+
+/* Tiêu đề chính */
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+/* Ô tìm kiếm */
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+    display:flex;
+    gap:50px;
+    align-items: center;
+    justify-content: center;
+}
+
+#searchInput1 {
+    padding: 12px 20px;
+    font-size: 16px;
+    width: 30%;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    margin: 10px 0;
+    transition: border-color 0.3s ease;
+}
+
+#searchInput1:focus {
+    border-color: #3498db;
+}
+#searchInput2 {
+    padding: 12px 20px;
+    font-size: 16px;
+    width: 30%;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    margin: 10px 0;
+    transition: border-color 0.3s ease;
+}
+
+#searchInput2:focus {
+    border-color: #3498db;
+}
+/* Bảng quản lý đơn hàng */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Giúp các đường viền giữa các cột và dòng dính liền */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề các cột */
+th {
+    padding: 16px 20px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+    background-color: #f0f0f0; /* Đặt nền màu sáng cho tiêu đề */
+    color: #333;
+    border-left: 1px solid #ddd; /* Thêm đường viền trái giữa các cột */
+    border-right: 1px solid #ddd; /* Thêm đường viền phải giữa các cột */
+    border-top: 1px solid #ddd; /* Thêm đường viền trên cùng */
+}
+
+/* Định dạng các ô dữ liệu */
+td {
+    padding: 16px 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    border-left: 1px solid #ddd; /* Thêm đường viền trái giữa các cột */
+    border-right: 1px solid #ddd; /* Thêm đường viền phải giữa các cột */
+    border-bottom: 1px solid #ddd; /* Thêm đường viền dưới cùng giữa các dòng */
+}
+
+/* Dòng tr bảng khi di chuột qua */
+tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+/* Dòng tr khi hover */
+tr:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Nút Xem Chi Tiết */
+.details-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.details-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.details-btn:active {
+    background-color: #1f618d;
+    transform: translateY(2px);
+}
+
+/* Các dòng có trạng thái khác nhau */
+td.status-processing {
+    font-weight: 600;
+    color: #f39c12;
+}
+
+td.status-completed {
+    font-weight: 600;
+    color: #2ecc71;
+}
+
+td.status-pending {
+    font-weight: 600;
+    color: #f1c40f;
+}
+
+td.status-confirmed {
+    font-weight: 600;
+    color: #3498db;
+}
+
+td.status-unconfirmed {
+    font-weight: 600;
+    color: #e74c3c;
+}
+
+/* Định dạng cho các cột chứa thông tin dài */
+td.long-text {
+    text-align: left;
+    padding-left: 20px;
+    word-wrap: break-word;
+}
+
+/* Hiệu ứng cho bảng */
+table {
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+</style>
+</body>
+</html>
