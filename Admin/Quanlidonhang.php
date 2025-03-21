@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý đơn hàng</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 
@@ -138,7 +138,7 @@
         </table>
     </div>
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
     <script>
        // Lắng nghe sự kiện khi người dùng nhấn phím Enter
 document.getElementById('searchInput1').addEventListener('keypress', function(event) {
@@ -188,177 +188,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     </script>
 
-<style>
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f7f8fa;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: #333;
-}
-
-/* Container chính */
-.container {
-    width: 90%;
-    height:700px;
-    margin: 40px auto;
-   
-}
-
-/* Tiêu đề chính */
-h1 {
-    text-align: center;
-    color: #333;
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 30px;
-}
-
-/* Ô tìm kiếm */
-.search-container {
-    text-align: center;
-    margin-bottom: 20px;
-    display:flex;
-    gap:50px;
-    align-items: center;
-    justify-content: center;
-}
-
-#searchInput1 {
-    padding: 12px 20px;
-    font-size: 16px;
-    width: 30%;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    outline: none;
-    margin: 10px 0;
-    transition: border-color 0.3s ease;
-}
-
-#searchInput1:focus {
-    border-color: #3498db;
-}
-#searchInput2 {
-    padding: 12px 20px;
-    font-size: 16px;
-    width: 30%;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    outline: none;
-    margin: 10px 0;
-    transition: border-color 0.3s ease;
-}
-
-#searchInput2:focus {
-    border-color: #3498db;
-}
-/* Bảng quản lý đơn hàng */
-table {
-    width: 100%;
-    border-collapse: collapse; /* Giúp các đường viền giữa các cột và dòng dính liền */
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Tiêu đề các cột */
-th {
-    padding: 16px 20px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 16px;
-    background-color: #f0f0f0; /* Đặt nền màu sáng cho tiêu đề */
-    color: #333;
-    border-left: 1px solid #ddd; /* Thêm đường viền trái giữa các cột */
-    border-right: 1px solid #ddd; /* Thêm đường viền phải giữa các cột */
-    border-top: 1px solid #ddd; /* Thêm đường viền trên cùng */
-}
-
-/* Định dạng các ô dữ liệu */
-td {
-    padding: 16px 20px;
-    text-align: center;
-    font-size: 14px;
-    color: #555;
-    border-left: 1px solid #ddd; /* Thêm đường viền trái giữa các cột */
-    border-right: 1px solid #ddd; /* Thêm đường viền phải giữa các cột */
-    border-bottom: 1px solid #ddd; /* Thêm đường viền dưới cùng giữa các dòng */
-}
-
-/* Dòng tr bảng khi di chuột qua */
-tr:nth-child(even) {
-    background-color: #fafafa;
-}
-
-/* Dòng tr khi hover */
-tr:hover {
-    background-color: #f1f1f1;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Nút Xem Chi Tiết */
-.details-btn {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.details-btn:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-}
-
-.details-btn:active {
-    background-color: #1f618d;
-    transform: translateY(2px);
-}
-
-/* Các dòng có trạng thái khác nhau */
-td.status-processing {
-    font-weight: 600;
-    color: #f39c12;
-}
-
-td.status-completed {
-    font-weight: 600;
-    color: #2ecc71;
-}
-
-td.status-pending {
-    font-weight: 600;
-    color: #f1c40f;
-}
-
-td.status-confirmed {
-    font-weight: 600;
-    color: #3498db;
-}
-
-td.status-unconfirmed {
-    font-weight: 600;
-    color: #e74c3c;
-}
-
-/* Định dạng cho các cột chứa thông tin dài */
-td.long-text {
-    text-align: left;
-    padding-left: 20px;
-    word-wrap: break-word;
-}
-
-/* Hiệu ứng cho bảng */
-table {
-    border-spacing: 0;
-    border-radius: 10px;
-    overflow: hidden;
-}
-</style>
 </body>
 </html>

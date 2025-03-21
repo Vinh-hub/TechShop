@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý người dùng</title>
-    <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body>
 
@@ -85,8 +85,8 @@
         </table>
          <!-- Nút Thêm Người Dùng -->
          <button id="showAddFormBtn" >Thêm Người Dùng</button>
-    </div>
-<style>
+    </div>   
+    <style>
     /* Thiết lập kiểu chữ chung và margin */
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -272,8 +272,7 @@
 #searchInput2:focus {
     border-color: #3498db;
 }
-</style>    
-
+</style> 
     <script>
 //Xóa và khóa người dùng
 document.querySelector('.btn-block').addEventListener('click', function() {

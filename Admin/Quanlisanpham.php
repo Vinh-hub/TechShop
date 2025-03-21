@@ -1,3 +1,15 @@
+<?php
+require_once "../BackEnd/DB_driver.php";
+
+// Tạo đối tượng DB_driver và kết nối
+$db = new DB_driver();
+$db->connect();
+
+// Truy vấn tất cả sản phẩm từ bảng sanpham
+$sql = "SELECT * FROM sanpham";
+$products = $db->get_list($sql);
+?>
+
 <!DOCTYPE phpl>
 <phpl lang="en">
 <head>
@@ -133,6 +145,12 @@ button:hover {
 
     </style>
 </head>
+<?php
+if (isset($_SESSION['message'])) {
+    echo '<p style="color: green; text-align: center;">' . $_SESSION['message'] . '</p>';
+    unset($_SESSION['message']);
+}
+?>
 <body>
 
     <header>
@@ -144,89 +162,28 @@ button:hover {
     </header>
     
     <div class="image-grid">
-        <div class="image-item">
-            <img src="../assets/imgs/samsunggalaxy.jpg" alt="Nike Air Force">
-            <h3>SamSung Galaxy S23 Ultra</h3>
-            <p class="price">2,500,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
-        <div class="image-item">
-            <img src="../assets/imgs/iphone-15-removebg-preview.png" alt="Nike SFB">
-            <h3>Iphone 15 ProMax</h3>
-            <p class="price">3,000,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
-        <div class="image-item">
-            <img src="../assets/imgs/LaptopHP.webp" alt="Adidas Campus">
-            <h3>Laptop HP </h3>
-            <p class="price">2,200,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
-        <div class="image-item">
-            <img src="../assets/imgs/iMac.webp" alt="Nike Blazer">
-            <h3>iMac</h3>
-            <p class="price">2,800,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
-        <div class="image-item">
-            <img src="../assets/imgs/samsung-galaxy-a34-5g-dual-sim-awesome-silver-128gb-and-6gb-ram-sm-a346b-ds-removebg-preview.png" alt="Adidas UltraBoost">
-            <h3>Samsung Galaxy</h3>
-            <p class="price">3,200,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
-        <div class="image-item">
-            <img src="../assets/imgs/Tecno-camon-20-pro-5g-ghana-removebg-preview.png" alt="Nike Dunk Low">
-            <h3>Tecno Pova 6</h3>
-            <p class="price">2,900,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
-        <div class="image-item">
-            <img src="../assets/imgs/samsung-galaxy-a34-5g-dual-sim-awesome-silver-128gb-and-6gb-ram-sm-a346b-ds-removebg-preview.png" alt="Adidas NMD">
-            <h3>Samsung Galaxy J3</h3>
-            <p class="price">3,500,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
-        <div class="image-item">
-            <img src="../assets/imgs/airpod-removebg-preview.png" alt="Nike Air Max">
-            <h3>AirPod Pro</h3>
-            <p class="price">3,800,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
-        <div class="image-item">
-            <img src="../assets/imgs/10th_gen._CB606154559_-removebg-preview.png" alt="Adidas Gazelle">
-            <h3>Apple iPad</h3>
-            <p class="price">2,600,000 đ</p> <!-- Giá sản phẩm -->
-            <div class="buttons">
-                <button class="edit">Sửa</button>
-                <button class="delete">Xóa</button>
-            </div>
-        </div>
+    <?php
+        if (!empty($products)) {
+            foreach ($products as $row) {
+                echo '<div class="image-item">';
+                echo '<img src="' . $row['HinhAnh'] . '" alt="' . $row['TenSP'] . '">';
+                echo '<h3>' . $row['TenSP'] . '</h3>';
+                echo '<p class="price">' . number_format($row['DonGia'], 0, ',', '.') . ' đ</p>';
+                echo '<div class="buttons">';
+                echo '<button class="edit" data-id="' . $row['MaSP'] . '">Sửa</button>';
+                echo '<button class="delete" data-id="' . $row['MaSP'] . '">Xóa</button>';
+                echo '</div>';
+                echo '</div>';
+            }
+        } else {
+            echo '<p>Chưa có sản phẩm nào.</p>';
+        }
+
+        // Ngắt kết nối
+        $db->dis_connect();
+        ?>
     </div>
-    <script>
+    <!-- <script>
         // JavaScript function để reload trang khi nhấn Enter
         window.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.querySelector('input[type="text"]');
@@ -276,6 +233,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+    </script> -->
+    <script>
+        // Chuyển hướng khi nhấn nút "Thêm sản phẩm"
+        document.querySelector('.search-bar button').addEventListener('click', function() {
+            window.location.href = 'add-productList.php';
+        });
+
+        // Reload trang khi nhấn Enter trong ô tìm kiếm
+        document.querySelector('.search-bar input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                location.reload();
+            }
+        });
+
+        // Xử lý nút Sửa và Xóa
+        document.addEventListener('DOMContentLoaded', function() {
+            // Nút Sửa
+            document.querySelectorAll('.edit').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const maSP = this.getAttribute('data-id');
+                    window.location.href = `suaThongtinSanpham.php?maSP=${maSP}`;
+                });
+            });
+
+            // Nút Xóa
+            document.querySelectorAll('.delete').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const maSP = this.getAttribute('data-id');
+                    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+                        window.location.href = `delete-product.php?maSP=${maSP}`;
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </phpl>

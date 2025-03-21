@@ -1,3 +1,68 @@
+<?php
+require_once "../BackEnd/DB_driver.php";
+
+// Tạo đối tượng DB_driver
+$db = new DB_driver();
+$db->connect(); // Kết nối cơ sở dữ liệu
+
+// Xử lý dữ liệu từ form
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Lấy dữ liệu từ form
+    $ten_sp = $_POST['product_name'] ?? '';
+    $don_gia = $_POST['price'] ?? '';
+    $mau = $_POST['color'] ?? '';
+    $dung_luong = $_POST['capacity'] ?? '';
+    $mo_ta = $_POST['description'] ?? '';
+    $so_luong = $_POST['quantity'] ?? 1; // Mặc định là 1 nếu không nhập
+    $ma_lsp = $_POST['category'] ?? ''; // Giả sử category tương ứng với MaLSP
+
+    // Xử lý upload hình ảnh
+    $hinh_anh = "";
+    if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
+        $target_dir = "../assets/imgs/";
+        $image_name = basename($_FILES["product_image"]["name"]);
+        $target_file = $target_dir . $image_name;
+        if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
+            $hinh_anh = $target_file;
+        } else {
+            echo "Lỗi khi upload hình ảnh.";
+            exit();
+        }
+    }
+
+    // Giá trị mặc định cho các trường không có trong form
+    $ma_km = 0; // Mã khuyến mãi mặc định (có thể thay đổi)
+    $trang_thai = 1; // Trạng thái mặc định (1 = hoạt động, có thể thay đổi)
+
+    // Chuẩn bị dữ liệu để lưu vào bảng sanpham
+    $data = [
+        'MaLSP' => $ma_lsp, // Giả sử category là MaLSP (cần điều chỉnh nếu khác)
+        'TenSP' => $ten_sp,
+        'DonGia' => $don_gia,
+        'Mau' => $mau,
+        'DungLuong' => $dung_luong,
+        'HinhAnh' => $hinh_anh,
+        'MaKM' => $ma_km,
+        'MoTa' => $mo_ta,
+        'SoLuong' => $so_luong,
+        'TrangThai' => $trang_thai
+    ];
+
+    // Sử dụng phương thức insert của DB_driver
+    $result = $db->insert('sanpham', $data);
+
+    if ($result) {
+        // Chuyển hướng về trang quản lý sản phẩm
+        header("Location: Quanlisanpham.php");
+        exit();
+    } else {
+        echo "Lỗi khi thêm sản phẩm.";
+    }
+}
+
+// Ngắt kết nối
+$db->dis_connect();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

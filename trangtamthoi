@@ -1,0 +1,82 @@
+<!-- quanlisanpham.php -->
+        <div class="image-item">
+            <img src="../assets/imgs/samsunggalaxy.jpg" alt="Nike Air Force">
+            <h3>SamSung Galaxy S23 Ultra</h3>
+            <p class="price">2,500,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
+        <div class="image-item">
+            <img src="../assets/imgs/iphone-15-removebg-preview.png" alt="Nike SFB">
+            <h3>Iphone 15 ProMax</h3>
+            <p class="price">3,000,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
+        <div class="image-item">
+            <img src="../assets/imgs/LaptopHP.webp" alt="Adidas Campus">
+            <h3>Laptop HP </h3>
+            <p class="price">2,200,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
+        <div class="image-item">
+            <img src="../assets/imgs/iMac.webp" alt="Nike Blazer">
+            <h3>iMac</h3>
+            <p class="price">2,800,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
+        <div class="image-item">
+            <img src="../assets/imgs/samsung-galaxy-a34-5g-dual-sim-awesome-silver-128gb-and-6gb-ram-sm-a346b-ds-removebg-preview.png" alt="Adidas UltraBoost">
+            <h3>Samsung Galaxy</h3>
+            <p class="price">3,200,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
+        <div class="image-item">
+            <img src="../assets/imgs/Tecno-camon-20-pro-5g-ghana-removebg-preview.png" alt="Nike Dunk Low">
+            <h3>Tecno Pova 6</h3>
+            <p class="price">2,900,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
+        <div class="image-item">
+            <img src="../assets/imgs/samsung-galaxy-a34-5g-dual-sim-awesome-silver-128gb-and-6gb-ram-sm-a346b-ds-removebg-preview.png" alt="Adidas NMD">
+            <h3>Samsung Galaxy J3</h3>
+            <p class="price">3,500,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
+        <div class="image-item">
+            <img src="../assets/imgs/airpod-removebg-preview.png" alt="Nike Air Max">
+            <h3>AirPod Pro</h3>
+            <p class="price">3,800,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
+        <div class="image-item">
+            <img src="../assets/imgs/10th_gen._CB606154559_-removebg-preview.png" alt="Adidas Gazelle">
+            <h3>Apple iPad</h3>
+            <p class="price">2,600,000 đ</p> <!-- Giá sản phẩm -->
+            <div class="buttons">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+            </div>
+        </div>
