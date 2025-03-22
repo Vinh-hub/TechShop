@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 button.addEventListener('click', function() {
                     const maSP = this.getAttribute('data-id');
                     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-                        window.location.href = `delete-product.php?maSP=${maSP}`;
+                        window.location.href = `xoaSanPham.php?maSP=${maSP}`;
                     }
                 });
             });

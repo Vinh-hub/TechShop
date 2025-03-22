@@ -7,7 +7,7 @@ $db->connect();
 if (isset($_GET['maSP'])) {
     $maSP = $_GET['maSP'];
     $db->remove('sanpham', 'MaSP = ?', [$maSP]);
-    header("Location: quanlisanpham.php");
+    header("Location: Quanlisanpham.php");
     exit();
 }
 
