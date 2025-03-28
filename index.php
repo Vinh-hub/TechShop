@@ -61,7 +61,7 @@ function addContainer() {
 
         echo '
         <div class="col l-2 m-3 c-6 product-item">
-            <a href="Template/chi-tiet-sp/sanpham.php?maSP=' . $row['MaSP'] . '" class="product-item-link">
+            <a href="Template/chi-tiet-sp/san-pham.php?maSP=' . htmlspecialchars($row['MaSP'])  . '" class="product-item-link">
                 <div class="product-item-group">
                     <div class="product-item__mark-favourite"></div>
                     <div class="product-item-img" style="background-image: url(' . htmlspecialchars($displayImagePath) . ');"></div>
@@ -128,7 +128,7 @@ function addContainer() {
 
         echo '
         <div class="col l-2 m-3 c-6 product-item">
-            <a href="Template/chi-tiet-sp/sanpham.php?maSP=' . $row['MaSP'] . '" class="product-item-link">
+            <a href="Template/chi-tiet-sp/san-pham.php?maSP=' . htmlspecialchars($row['MaSP']) . '" class="product-item-link">
                 <div class="product-item-group">
                     <div class="product-item__mark-favourite"></div>
                     <div class="product-item-img" style="background-image: url(' . htmlspecialchars($displayImagePath) . ');"></div>
@@ -188,7 +188,7 @@ function addContainer() {
     <link rel="stylesheet" href="./assets/css/main.css">
     <link rel="stylesheet" href="./assets/css/grid.css">
     <link rel="stylesheet" href="./assets/css/responsive.css">
-    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.6.0-web/fontawesome-free-6.6.0-web/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;800&display=swap" rel="stylesheet">
 </head>
 <body>

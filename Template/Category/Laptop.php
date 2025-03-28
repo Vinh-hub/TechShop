@@ -6,7 +6,7 @@ require_once "../../php/function.php";
 $db = new DB_driver();
 $db->connect();
 
-$categoryId = 1; 
+$categoryId = 2; 
 $perPage = 10;  
 $page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $perPage;

@@ -215,6 +215,16 @@ $db->dis_connect();
             font-size: 12px;
             margin-top: 5px;
         }
+        
+        .form-group textarea {
+            width: 100%;
+            min-height: 150px; 
+            resize: vertical; 
+            white-space: pre-wrap; 
+            overflow-wrap: break-word; 
+            display: block;
+        }
+
     </style>
 </head>
 <body>

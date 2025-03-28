@@ -17,10 +17,11 @@
 }
 
 .product-image {
-    width: 100%;
+    width: 492px;
     height: auto;
     border-radius: 5px;
 }
+
 
 .product-duration, .product-playtime, .product-soundtime {
     position: absolute;
@@ -297,9 +298,41 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
+    max-height: 237px;
     font-size: 1.4rem;
     color: var(--text-color);
+    transition: max-height 0.3s ease;
+    overflow-y: auto; /* Bật cuộn dọc */
+    position: relative;
 }
+
+.option-promotions__p.expanded {
+    max-height: none; /* Bỏ giới hạn chiều cao khi mở rộng */
+    overflow-y: visible; /* Tắt cuộn khi mở rộng */
+}
+
+.option-promotions__p::-webkit-scrollbar {
+    width: 6px; /* Độ rộng thanh cuộn */
+}
+
+.option-promotions__p::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* Màu thanh cuộn */
+    border-radius: 3px;
+}
+
+.option-promotions__p::-webkit-scrollbar-track {
+    background-color: #f5f5f5; /* Màu nền của thanh cuộn */
+}
+
+.description-text {
+    display: block;
+    font-size: 14px;
+    line-height: 20px; /* Chiều cao dòng để dễ tính toán */
+    color: #555;
+    white-space: pre-wrap; /* Giữ định dạng xuống dòng */
+    overflow-wrap: break-word; /* Đảm bảo từ dài không tràn */
+}
+
 .option-promotion{
     margin-top: 10px;
     line-height: 2rem;
@@ -401,7 +434,8 @@
     font-size: 50px;
 
 }
-.name-product{
+.name-product {
     font-size: 3rem;
     margin: 10px 0;
+    line-height: 40px;
 }

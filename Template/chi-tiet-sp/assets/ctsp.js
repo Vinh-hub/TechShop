@@ -1,36 +1,20 @@
-const optionGBs = document.querySelectorAll('.options-GB-link');
-const optionColors = document.querySelectorAll('.options-color-link');
-let optionTextGB = document.getElementById('option-gb');
-let optionTextGBAvai = document.getElementById('option-gb-avai');
+// document.addEventListener('DOMContentLoaded', function() {
+//         const descriptionContainer = document.querySelector('.option-promotions__p');
+//         const descriptionText = document.querySelector('.description-text');
 
-optionGBs.forEach(optionGB => {
-    optionGB.addEventListener('click', () => {
-        optionGBs.forEach(btn => btn.classList.remove('active'));
-        optionGB.classList.add('active');
+//         // Kiểm tra xem nội dung có vượt quá chiều cao giới hạn hay không
+//         const isOverflowing = descriptionText.scrollHeight > descriptionContainer.clientHeight;
 
-        const gbValue = optionGB.textContent.trim();
-        optionTextGB.textContent = gbValue; 
-
-        const availableGB = parseInt(gbValue) - 15; 
-        optionTextGBAvai.textContent = availableGB + " GB";
-    }); 
-});
-
-optionColors.forEach(optionColor => {
-    optionColor.addEventListener('click', ()=>{
-        optionColors.forEach(btn => btn.classList.remove('active'));
-        optionColor.classList.add('active');
-    });
-});
-
-// document.getElementById('review-write').addEventListener('click', ()=>{
-//     const modalReview = document.querySelector('.modal-review');
-//     modalReview.style.display = 'flex';
-//     document.querySelector('.auth-form__header--icon').addEventListener('click', ()=> {
-//         modalReview.style.display = 'none';
+//         if (isOverflowing) {
+//             descriptionContainer.addEventListener('scroll', function() {
+//                 // Nếu cuộn lên trên cùng (scrollTop = 0), thu gọn lại
+//                 if (descriptionContainer.scrollTop === 0 && descriptionContainer.classList.contains('expanded')) {
+//                     descriptionContainer.classList.remove('expanded');
+//                 }
+//                 // Nếu cuộn xuống (dù chỉ một chút), mở rộng
+//                 else if (descriptionContainer.scrollTop > 0) {
+//                     descriptionContainer.classList.add('expanded');
+//                 }
+//             });
+//         }
 //     });
-// });
-
-// document.getElementById("add-product-btn").addEventListener("click", function (){
-
-// });

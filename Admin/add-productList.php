@@ -109,11 +109,20 @@ $db->dis_connect();
             font-size: 16px;
             margin-left: 10px;
         }
+        
+        .form-group textarea {
+            width: 100%;
+            min-height: 150px; 
+            resize: vertical; 
+            white-space: pre-wrap; 
+            overflow-wrap: break-word; 
+            display: block;
+        }
     </style>
 </head>
 <body>
     <h1>Thêm Sản Phẩm Mới</h1>
-    <form action="./add-productList.php" method="POST" enctype="multipart/form-data">
+    <form action="./add-productList.php" method="POST" enctype="multipart/form-data" class="form-container">
         <!-- Tên sản phẩm -->
         <div class="form-group">
             <label for="product-name">Tên sản phẩm</label>
@@ -151,9 +160,7 @@ $db->dis_connect();
                 <option value="">-- Danh mục --</option>
                 <option value="1">Điện thoại</option>
                 <option value="2">Laptop</option>
-                <option value="3">Đồng hồ</option>
-                <option value="4">Máy tính bảng</option>
-                <option value="5">Màn hình</option>
+                <option value="3">Phụ kiện</option>
             </select>
         </div>
 
