@@ -5,6 +5,9 @@ require_once "../BackEnd/DB_driver.php";
 $db = new DB_driver();
 $db->connect(); // Kết nối cơ sở dữ liệu
 
+// Lấy danh sách danh mục từ bảng loaisanpham
+$categories = $db->get_list("SELECT MaLSP, TenLSP FROM loaisanpham");
+
 // Xử lý dữ liệu từ form
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Lấy dữ liệu từ form
@@ -157,10 +160,16 @@ $db->dis_connect();
         <div class="form-group">
             <label for="category">Loại sản phẩm</label>
             <select id="category" name="category" required>
-                <option value="">-- Danh mục --</option>
-                <option value="1">Điện thoại</option>
-                <option value="2">Laptop</option>
-                <option value="3">Phụ kiện</option>
+                <option value="">-- Chọn danh mục --</option>
+                <?php if (!empty($categories)): ?>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category['MaLSP']); ?>">
+                            <?php echo htmlspecialchars($category['TenLSP']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <option value="">Không có danh mục nào</option>
+                <?php endif; ?>
             </select>
         </div>
 

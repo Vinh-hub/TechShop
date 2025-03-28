@@ -5,6 +5,9 @@ require_once "../BackEnd/DB_driver.php";
 $db = new DB_driver();
 $db->connect();
 
+// Lấy danh sách danh mục từ bảng loaisanpham
+$categories = $db->get_list("SELECT MaLSP, TenLSP FROM loaisanpham");
+
 // Lấy thông tin sản phẩm từ MaSP
 if (!isset($_GET['maSP'])) {
     echo "Không tìm thấy sản phẩm.";
@@ -224,7 +227,6 @@ $db->dis_connect();
             overflow-wrap: break-word; 
             display: block;
         }
-
     </style>
 </head>
 <body>
@@ -268,11 +270,16 @@ $db->dis_connect();
             <div class="form-group">
                 <label for="category">Loại sản phẩm:</label>
                 <select id="category" name="category" required>
-                    <option value="1" <?php echo $product['MaLSP'] == 1 ? 'selected' : ''; ?>>Điện thoại</option>
-                    <option value="2" <?php echo $product['MaLSP'] == 2 ? 'selected' : ''; ?>>Laptop</option>
-                    <option value="3" <?php echo $product['MaLSP'] == 3 ? 'selected' : ''; ?>>Đồng hồ</option>
-                    <option value="4" <?php echo $product['MaLSP'] == 4 ? 'selected' : ''; ?>>Máy tính bảng</option>
-                    <option value="5" <?php echo $product['MaLSP'] == 5 ? 'selected' : ''; ?>>Màn hình</option>
+                    <option value="">-- Chọn danh mục --</option>
+                    <?php if (!empty($categories)): ?>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?php echo htmlspecialchars($category['MaLSP']); ?>" <?php echo $product['MaLSP'] == $category['MaLSP'] ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($category['TenLSP']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <option value="">Không có danh mục nào</option>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="form-group">

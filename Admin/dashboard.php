@@ -31,10 +31,11 @@
             <div class="welcome">ProTech</div>
         <nav>
             <ul>
-                    <li><a href="./Tongquan.php" class="nav-link" target="content-frame" data-target="profile">Tổng quan</a></li>
-                    <li><a href="./user.php" class="nav-link" target="content-frame" data-target="profile">User Profile</a></li>
+                    <li><a href="Tongquan.php" class="nav-link" target="content-frame" data-target="profile">Tổng quan</a></li>
+                    <li><a href="user.php" class="nav-link" target="content-frame" data-target="profile">User Profile</a></li>
                     <li><a href="Quanlidonhang.php" class="nav-link" target="content-frame" data-target="orders">Quản lí đơn hàng</a></li>
                     <li><a href="Quanlinguoidung.php" class="nav-link" target="content-frame" data-target="users">Quản lí người dùng</a></li>
+                    <li><a href="Quanlidanhmuc.php" class="nav-link" target="content-frame" data-target="users">Quản lí danh mục</a></li>
                     <li><a href="Quanlisanpham.php" class="nav-link" target="content-frame" data-target="products">Quản lí sản phẩm</a></li>
                 
             </ul>
