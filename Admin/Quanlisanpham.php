@@ -10,165 +10,204 @@ $sql = "SELECT * FROM sanpham";
 $products = $db->get_list($sql);
 ?>
 
-<!DOCTYPE phpl>
-<phpl lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý sản phẩm</title>
     <style>
-       * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
 
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    /* background-color: #333; */
-    color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-}
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
 
-header h1 {
-    font-size: 28px;
-    font-weight: bold;
-    color: #fff;
-    margin-right: 20px;
-}
+        header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-right: 20px;
+        }
 
-.search-bar {
-    display: flex;
-    gap: 10px;
-}
+        .search-bar {
+            display: flex;
+            gap: 10px;
+        }
 
-.search-bar input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    width: 300px;
-    color: #333;
-}
+        .search-bar input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            width: 300px;
+            color: #333;
+        }
 
-.search-bar button {
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.image-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    width: 100%;
-    max-width: 900px;
-}
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
 
-.image-item {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    text-align: center;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
+        .image-item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-.image-item img {
-    width: 100%;
-    height: 230px;
-    border-radius: 8px;
-}
+        .image-item img {
+            width: 100%;
+            height: 230px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
 
-.image-item h3 {
-    margin-top: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-}
+        .image-item h3 {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
 
-.buttons {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
+        .buttons {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
 
-.buttons button {
-    padding: 5px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: center;
-    font-weight: bold;
-}
+        .buttons button {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
 
-.buttons .edit {
-    background-color: #3498db;
-    color: white;
-}
-.buttons .delete {
-    background-color: #e74c3c;
-    color: white;
-}
-.image-item .price {
-    font-size: 18px;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-top: 10px;
-}
-button:hover {
-    opacity: 0.8;
-}
+        .buttons .edit {
+            background-color: #3498db;
+            color: white;
+        }
 
+        .buttons .delete {
+            background-color: #e74c3c;
+            color: white;
+        }
 
+        .image-item .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+
+        .price-and-discount {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .price-new {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2ecc71; /* Màu xanh lá cho giá mới */
+        }
+
+        .price-present {
+            font-size: 14px;
+            color: #d0021b; /* Màu đỏ cho phần trăm giảm giá */
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
     </style>
 </head>
-<?php
-if (isset($_SESSION['message'])) {
-    echo '<p style="color: green; text-align: center;">' . $_SESSION['message'] . '</p>';
-    unset($_SESSION['message']);
-}
-?>
 <body>
-
     <header>
-        <h1 style="color:black">Quản lý sản phẩm</h1>
+        <h1>Quản lý sản phẩm</h1>
         <div class="search-bar">
             <input type="text" placeholder="Nhập tên sản phẩm">
             <button>+ Thêm sản phẩm</button>
         </div>
     </header>
-    
+
     <div class="image-grid">
-    <?php
+        <?php
         if (!empty($products)) {
             foreach ($products as $row) {
+                // Debug giá trị HinhAnh từ cơ sở dữ liệu
+                echo "<!-- Debug: Raw HinhAnh value for {$row['TenSP']}: " . (isset($row['HinhAnh']) ? $row['HinhAnh'] : 'NULL') . " -->";
+                // Loại bỏ khoảng trắng ở đầu và cuối chuỗi HinhAnh
+                $hinhAnh = isset($row['HinhAnh']) ? trim($row['HinhAnh']) : '';
+                echo "<!-- Debug: Trimmed HinhAnh value for {$row['TenSP']}: " . ($hinhAnh ?: 'NULL') . " -->";
+                // Kiểm tra xem HinhAnh có rỗng không
+                echo "<!-- Debug: Is HinhAnh empty after trim? " . (empty($hinhAnh) ? 'Yes' : 'No') . " -->";
+
+                // Xử lý đường dẫn ảnh
+                $imagePath = !empty($hinhAnh) && is_string($hinhAnh) ? $hinhAnh : '/assets/imgs/default.png';
+                // Đảm bảo đường dẫn bắt đầu bằng /
+                if ($imagePath && $imagePath[0] !== '/') {
+                    $imagePath = '/' . $imagePath;
+                }
+                echo "<!-- Debug: Final image path for {$row['TenSP']}: $imagePath -->";
+                echo "<!-- Debug: Link HinhAnh for {$row['TenSP']}: http://{$_SERVER['HTTP_HOST']}$imagePath -->";
+
                 echo '<div class="image-item">';
-                echo '<img src="' . $row['HinhAnh'] . '" alt="' . $row['TenSP'] . '">';
-                echo '<h3>' . $row['TenSP'] . '</h3>';
+                echo '<img src="..' . htmlspecialchars($imagePath) . '" alt="' . htmlspecialchars($row['TenSP']) . '">';
+                echo '<h3>' . htmlspecialchars($row['TenSP']) . '</h3>';
                 echo '<p class="price">' . number_format($row['DonGia'], 0, ',', '.') . ' đ</p>';
+
+                // Tính giá mới và hiển thị phần trăm giảm giá nếu có
+                if (!empty($row['PhanTramGiam']) && $row['PhanTramGiam'] > 0 && $row['PhanTramGiam'] < 100) {
+                    $giaMoi = $row['DonGia'] * (1 - ($row['PhanTramGiam'] / 100)); // Tính giá mới
+                    echo '
+                        <div class="price-and-discount">
+                            <label class="price-new">' . number_format($giaMoi, 0, ',', '.') . ' đ</label>
+                            <small class="price-present">-' . $row['PhanTramGiam'] . '%</small>
+                        </div>';
+                }
+
                 echo '<div class="buttons">';
                 echo '<button class="edit" data-id="' . $row['MaSP'] . '">Sửa</button>';
                 echo '<button class="delete" data-id="' . $row['MaSP'] . '">Xóa</button>';
@@ -179,77 +218,22 @@ if (isset($_SESSION['message'])) {
             echo '<p>Chưa có sản phẩm nào.</p>';
         }
 
-        // Ngắt kết nối
         $db->dis_connect();
         ?>
     </div>
-    <!-- <script>
-        // JavaScript function để reload trang khi nhấn Enter
-        window.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.querySelector('input[type="text"]');
-            
-            // Thêm sự kiện 'keydown' để phát hiện khi người dùng nhấn Enter
-            searchInput.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {  // Kiểm tra nếu phím Enter được nhấn
-                    location.reload();  // Tải lại trang
-                }
-            });
-        });
-    
-    // Chọn nút theo selector
-document.querySelector('button').addEventListener('click', function() {
-    // URL bạn muốn chuyển đến
-    window.location.href = 'add-productList.php'; // Thay 'https://example.com' bằng URL của bạn
-});
 
-// //Sửa và xóa sản phẩm
-document.addEventListener('DOMContentLoaded', function() {
-    // Lắng nghe sự kiện click vào tất cả các nút "Sửa"
-    const editButtons = document.querySelectorAll('.edit');
-    editButtons.forEach(function(editButton) {
-        editButton.addEventListener('click', function() {
-            // Chuyển hướng đến trang suaThongtinSanpham.php
-            window.location.href = 'suaThongtinSanpham.php';
-        });
-    });
-
-    // Lắng nghe sự kiện click vào tất cả các nút "Xóa"
-    const deleteButtons = document.querySelectorAll('.delete');
-    deleteButtons.forEach(function(deleteButton) {
-        deleteButton.addEventListener('click', function() {
-            // Hiển thị hộp thoại xác nhận xóa
-            const isConfirmed = confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');
-
-            if (isConfirmed) {
-                // Nếu người dùng xác nhận xóa, hiển thị thông báo và thực hiện xóa
-                alert('Sản phẩm đã được xóa thành công.');
-
-                // Bạn có thể thay đổi hoặc thêm mã xử lý xóa ở đây (ví dụ: gửi yêu cầu xóa qua API hoặc chuyển hướng)
-            } else {
-                // Nếu người dùng không xác nhận xóa
-                alert('Sản phẩm không bị xóa.');
-            }
-        });
-    });
-});
-
-    </script> -->
     <script>
-        // Chuyển hướng khi nhấn nút "Thêm sản phẩm"
         document.querySelector('.search-bar button').addEventListener('click', function() {
             window.location.href = 'add-productList.php';
         });
 
-        // Reload trang khi nhấn Enter trong ô tìm kiếm
         document.querySelector('.search-bar input').addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 location.reload();
             }
         });
 
-        // Xử lý nút Sửa và Xóa
         document.addEventListener('DOMContentLoaded', function() {
-            // Nút Sửa
             document.querySelectorAll('.edit').forEach(function(button) {
                 button.addEventListener('click', function() {
                     const maSP = this.getAttribute('data-id');
@@ -257,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
 
-            // Nút Xóa
             document.querySelectorAll('.delete').forEach(function(button) {
                 button.addEventListener('click', function() {
                     const maSP = this.getAttribute('data-id');
@@ -269,4 +252,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     </script>
 </body>
-</phpl>
+</html>

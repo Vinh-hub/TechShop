@@ -1,819 +1,158 @@
 <?php
 session_start();
 
-function addHeader(){
-    echo'
+function addHeader($basePath = '') {
+    echo '
     <header class="header">
-            <div class="grid wide">
-                <div class="row header_navbar">
-                    <div class="header_navbar-search">
-                        <div class="header_width-search">
-                            <a href="./index.htm" class="header_logo">
-                                <img class="header_logo-img " src="./assets/imgs/logo.png" alt="ProTech-logo" width="96" height="40">
-                            </a>
-                        </div> 
-                        <div class="header_navbar-search">
-                            <div class="header_search">
-
-                                <i class="header_search-icon fa-solid fa-magnifying-glass "></i>
-                                <input type="text" class="header_search-input " placeholder ="Nhập thông tin để tìm kiếm sản phẩm ">
-                                <button type="button" class="header_search-button"> Tìm kiếm </button>  
-                                   
-                                <div class="header_navbar-search-history">
-                                    <div class="header_navbar-search-history-heading">
-                                         Lịch sử tìm kiếm 
-                                         
-                                    </div>
-
-                                    <ul class="header_navbar-search-history-list">
-                                        <li class="header_navbar-search-history-item">
-                                            <a href="#"> 
-                                                <i class="header_search-icon fa-solid fa-clock-rotate-left"></i>
-                                                Iphone 14 promax 
-                                                
-                                            </a>
-                                        </li>
-
-                                        <li class="header_navbar-search-history-item">
-                                            <a href="#"> 
-                                                <i class="header_search-icon fa-solid fa-clock-rotate-left"></i>
-                                                AirPod Pro 2 
-                                                
-                                            </a>
-                                        </li>
-
-                                        <li class="header_navbar-search-history-item">
-                                            <a href="#"> 
-                                                <i class="header_search-icon fa-solid fa-clock-rotate-left"></i>
-                                                Laptop Dell Precision 
-                                            </a>
-                                           
-                                        </li>
- 
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
+        <div class="grid wide"> 
+            <div class="header_navbar">
+                <div class="header_navbar-search">  
+                    <div class="header_width-search">
+                        <a href="' . $basePath . 'index.php" class="header_logo home-page">
+                            <img class="header_logo-img" src="' . $basePath . 'assets/imgs/logo.png" alt="ProTech-logo" width="96" height="40">
+                        </a>
+                    </div> 
+                    <div class="header_search">
+                        <i class="header_search-icon fa-solid fa-magnifying-glass"></i>
+                        <input type="text" class="header_search-input" placeholder="Nhập thông tin để tìm kiếm sản phẩm">
+                        <button type="button" class="header_search-button"> Tìm kiếm </button>  
+                        <div class="header_navbar-search-history">
+                            <div class="header_navbar-search-history-heading">Lịch sử tìm kiếm</div>
+                            <ul class="header_navbar-search-history-list">
+                                <li class="header_navbar-search-history-item">
+                                    <a href="#">
+                                        <i class="header_search-icon fa-solid fa-clock-rotate-left"></i> Iphone 14 promax
+                                    </a>
+                                </li>
+                                <li class="header_navbar-search-history-item">
+                                    <a href="#">
+                                        <i class="header_search-icon fa-solid fa-clock-rotate-left"></i> AirPod Pro 2
+                                    </a>
+                                </li>
+                                <li class="header_navbar-search-history-item">
+                                    <a href="#">
+                                        <i class="header_search-icon fa-solid fa-clock-rotate-left"></i> Laptop Dell Precision
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="header_navbar-list">
-                            <li class="header_navbar-item">
-    
-                            <a href="./index.htm" class="header_navbar-icon-link">
+                    </div>    
+                    <ul class="header_navbar-list">
+                        <li class="header_navbar-item">
+                            <a href="#" class="header_navbar-icon-link">
                                 <i class="fa-solid fa-house"></i>
                             </a>
-    
-                            <a href="./index.htm" class="header_navbar-icon-link header_navbar-link--strong">
-                                Trang chủ
-                            </a>
+                            <a href="' . $basePath . 'index.php" class="header_navbar-icon-link header_navbar-link--strong home-page">Trang chủ</a>
                         </li>
-    
-                       
-    
                         <li class="header_navbar-item">
-                            <a href="./Template/Information.htm" class="header_navbar-item-link">
+                            <a href="' . $basePath . 'Template/Information.php" class="header_navbar-item-link">
                                 <a href="#" class="header_navbar-icon-link" id="account-icon-link">
                                     <i class="fa-regular fa-face-smile-wink"></i>
                                 </a>
-                                <a href="#" class="header_navbar-icon-link header_navbar-link--strong" id="account-link">
-                                    Tài khoản
-                                </a>
+                                <a href="#" class="header_navbar-icon-link header_navbar-link--strong" id="account-link">Tài khoản</a>
                             </a>
                         </li>
-
                         <li class="header_navbar-item header_navbar-item-no-pointer">
+                            Liên hệ
                             <a href="#" class="header_navbar-icon-link header_navbar-icon-link--separate">
-                                Liên hệ
                                 <i class="fa-brands fa-facebook"></i>
-                                <i class="fa-brands fa-instagram "></i>
+                                <i class="fa-brands fa-instagram"></i>
                             </a>
-                            
                         </li>
-                        
                         <li class="header_navbar-item">
-                           
-                                <!-- <div class="header_cart-wrap">  -->
-
-                                    <a href="./Template/Cart.htm" class="header_navbar-icon-link">
-                                        <i class="header_navbar-icon-cart fa-solid fa-cart-shopping"></i> <span id="cart-count">2</span> 
-                                    </a>
-                            
-                                 
-                            <!-- <div class="header_cart-list header_cart-list-no-cart">
-                                <img class=" header_cart-no-cart-img" src="./assets/imgs/cart-empty.png">
-                                <span class="header_cart-no-cart-msg"> Giỏ hàng đang trống </span>
-
-
-                            </div>
-                        </div> -->
-                            
+                            <a href="' . $basePath . 'Template/Cart.php" class="header_navbar-icon-link">
+                                <i class="header_navbar-icon-cart fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span>
+                            </a>
                         </li>
-                        
-                        
-                        </ul>                     
-                    </div>
-                    <div class="header_navbar-item-mobile">
-                        <a href="./Template/Cart.htm" class="header_navbar-icon-link">
-                            <i class="header_navbar-icon-cart fa-solid fa-cart-shopping"></i> 
-                        </a>
-                    </div> 
+                    </ul>                       
                 </div>
             </div>
-
             <div class="header_navbar-discount">
                 <ul class="header_navbar-discount-list">
-
                     <li class="header_navbar-discount-item">
-                    <a href="#" class=" header_navbar-dis-link header_navbar-dis-link--strong">
-                        Cam kết
-                    </a>
+                        <a href="#" class="header_navbar-dis-link header_navbar-dis-link--strong">Cam kết</a>
                     </li>
-
-
-                    <li class="header_navbar-discount-item " >
-                    <a href="#" class="header_navbar-dis-link ">
-                        <i class="header_navbar-dis-icon fa-solid fa-award"></i>                            
-                        100% hàng thật  
-                    </a>
+                    <li class="header_navbar-discount-item">
+                        <a href="#" class="header_navbar-dis-link">
+                            <i class="header_navbar-dis-icon fa-solid fa-award"></i> 100% hàng thật
+                        </a>
                     </li>
-
-
-                    <li class="header_navbar-discount-item" >   
-                    <a href="#" class="header_navbar-dis-link">
-                        <i class="header_navbar-dis-icon fa-solid fa-circle-check"></i>
-                        Chính hãng 
-                    </a>
+                    <li class="header_navbar-discount-item">
+                        <a href="#" class="header_navbar-dis-link">
+                            <i class="header_navbar-dis-icon fa-solid fa-circle-check"></i> Chính hãng
+                        </a>
                     </li>
-
-
-                    <li class="header_navbar-discount-item" >
-                    <a href="#" class="header_navbar-dis-link ">
-                        <i class="header_navbar-dis-icon fa-solid fa-tags"></i>
-                        Giá ưu đãi
-                    </a>
+                    <li class="header_navbar-discount-item">
+                        <a href="#" class="header_navbar-dis-link">
+                            <i class="header_navbar-dis-icon fa-solid fa-tags"></i> Giá ưu đãi
+                        </a>
                     </li>
-
-                     
-                    <li class="header_navbar-discount-item" >  
-                    <a href="#" class="header_navbar-dis-link">
-                        <i class="header_navbar-dis-icon fa-solid fa-rotate"></i> 
-                         30 ngày đổi trả
-                    </a>
+                    <li class="header_navbar-discount-item">
+                        <a href="#" class="header_navbar-dis-link">
+                            <i class="header_navbar-dis-icon fa-solid fa-rotate"></i> 30 ngày đổi trả
+                        </a>
                     </li>
-
-
-                    <li class="header_navbar-discount-item" >
-                    <a href="#" class="header_navbar-dis-link">
-                         <i class="header_navbar-dis-icon fa-solid fa-truck-fast"></i>
-                        Giao nhanh trong 2h
-                    </a>
+                    <li class="header_navbar-discount-item">
+                        <a href="#" class="header_navbar-dis-link">
+                            <i class="header_navbar-dis-icon fa-solid fa-truck-fast"></i> Giao nhanh trong 2h
+                        </a>
                     </li>
-
                 </ul>
-    
             </div>
-        </header>';
+        </div>
+    </header>';
 }
 
-function addCTN__cate(){
-    echo'
+function addCTN__cate($basePath = '') {
+    echo '
     <div class="col l-2 m-0 c-0">
-                        <nav class="container__category">
-                            <span class="header__category">Danh mục</span>
-                            <ul class="category__list">
-                                <li class="category__item">
-                                    <a href="./Template/Category/Dien-thoai.htm" class="category__item-link">
-                                        <img src="./assets/imgs/phonne-24x24.png" alt="" class="category__item-icon">
-                                        Điện thoại
-                                    </a>
-                                </li>
-                                <li class="category__item">
-                                    <a href="./Template/Category/Dien-thoai.htm" class="category__item-link">
-                                        <img src="./assets/imgs/laptop-24x24.png" alt="" class="category__item-icon">
-                                        Laptop
-                                    </a>
-                                </li>
-                                <li class="category__item">
-                                    <a href="./Template/Category/Dien-thoai.htm" class="category__item-link">
-                                    <img src="./assets/imgs/smartwatch-24x24.png" alt="" class="category__item-icon">
-                                        Smartwatch
-                                    </a>
-                                </li>
-                                <li class="category__item">
-                                    <a href="./Template/Category/Dien-thoai.htm" class="category__item-link">
-                                    <img src="./assets/imgs/phu-kien-24x24.png" alt="" class="category__item-icon">
-                                    Phụ kiện
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <nav class="container__category">
-                            <span class="header__category">Tiện ích</span>
-                            <ul class="category__list">
-                                <li class="category__item">
-                                    <a href="./Template/Category/Dien-thoai.htm" class="category__item-link">
-                                        <img src="./assets/imgs/voucher.png" alt="" class="category__item-icon">
-                                        Voucher
-                                    </a>
-                                </li>
-                                <li class="category__item">
-                                    <a href="./Template/Category/Dien-thoai.htm" class="category__item-link">
-                                        <img src="./assets/imgs/tien-ich-24x24.png" alt="" class="category__item-icon">
-                                        Đóng tiền, nap thẻ  
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>';
-}
-
-function addContainer(){
-    echo'
-    <div class="col l-10 m-12 c-12">
-                        <header class="row container__menu title_menu">
-
-                            <a class="title_menu-thumail-link" href="#">
-                                <img src="./assets/imgs/thumail.png" alt="" class="title_menu-thumail">
-                            </a>
-                        </header>
-                        <article class="row protech container__product">
-                            <div class="Sale">
-                                <i class="Sale-icon fa-solid fa-thumbs-up"></i>
-                                <span class="Sale-text">TOP DEAL</span>
-                            </div>
-                            <div class="product-list">
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-sa-mac-thumb-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name"> Điện thoại iPhone 16 Pro Max 256GB</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">34.990.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            39.990.000₫
-                                                        </label>
-                                                            <small class="price-present">-12%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now gutter">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/42/249948/samsung-galaxy-s23-ultra-green-thumbnew-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Điện thoại Samsung Galaxy S23 Ultra 5G 8GB/256GB</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">21.490.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            24.990.000₫
-                                                        </label>
-                                                            <small class="price-present">-14%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now gutter">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/5698/320977/imac-24-inch-2023-4-5k-m3-16gb-070524-015603-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">iMac 24 inch 4.5K M3 16GB/256GB</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">29.990.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            41.990.000₫
-                                                        </label>
-                                                            <small class="price-present">-28%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now gutter">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/44/302532/hp-15s-fq5162tu-i5-7c134pa-thumb-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Laptop HP 15s fq5162TU i5 1235U/8GB/512GB/Win11</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">14.990.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            18.890.000₫
-                                                        </label>
-                                                            <small class="price-present">-20%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now gutter">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/7077/315596/befit-watch-ultra-day-silicone-tb-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Đồng hồ thông minh BeFit Watch Ultra 52.6mm</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">1.090.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            1.490.000₫
-                                                        </label>
-                                                            <small class="price-present">-26%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now gutter">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/54/310123/tai-nghe-bluetooth-true-wireless-havit-tw967-thumb-5-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Tai nghe Bluetooth True Wireless HAVIT TW967</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">250.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            450.000₫
-                                                        </label>
-                                                            <small class="price-present">-44%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now gutter">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-                        <div class="Sale">
-                            <span class="Sale-suggest">Gợi ý hôm nay</span>
-                        </div>
-                        <article class="row protech container__product gutter" >
-                            <div class="product-list gutter">
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/522/325501/ipad-air-11-inch-m2-wifi-blue-thumb-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Máy tính bảng iPad Air 6 M2 11 inch WiFi 128GB</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">16.990.000₫ </span>
-                                                </strong>
-                                                <div class="buy__now">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/5698/325157/asus-s500se-i5-513500008w-thumb-1-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">ASUS S500SE i5 13500/8GB/512GB/Bàn Phím/Chuột/Win11</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">13.690.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            15.190.000₫
-                                                        </label>
-                                                            <small class="price-present">-9%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-sa-mac-thumb-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Điện thoại iPhone 16 Pro 128GB</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">28.990.000₫ </span>
-                                                </strong>
-                                                <div class="buy__now">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/44/323580/hp-victus-16-s0140ax-r7-9q987pa-thumb-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Laptop HP Gaming VICTUS 16 s0140AX R7 7840HS/32GB/512GB/6GB RTX4050/144Hz/Win11</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">31.890.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            35.890.000₫
-                                                        </label>
-                                                            <small class="price-present">-11%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/86/229571/chuot-bluetooth-silent-rapoo-m500-thumb-7-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Chuột Bluetooth Silent Rapoo M500</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">270.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            400.000₫
-                                                        </label>
-                                                            <small class="price-present">-32%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col l-2 m-3 c-6 product-item">
-                                    <a href="./Template/chi-tiet-sp/dien-thoai/ip15.htm" class="product-item-link">
-                                        <div class="product-item-group">
-                                            <div class="product-item__mark-favourite">
-                                            </div>
-                                            <div class="product-item-img"
-                                                style="background-image: url(https://cdn.tgdd.vn/Products/Images/4547/314634/ban-phim-co-co-day-dareu-ek75-thumb-600x600.jpg);">
-                                            </div>
-                                            <div class="product-item-info">
-                                                <div class="product-item-name">
-                                                    <div class="item-name__group">
-                                                        <h3 id="item-name">Bàn Phím Cơ Có Dây DareU EK75</h3>
-                                                    </div>
-                                                    <div class="item-name-deal">
-                                                        <!-- <span class="name-main-deal-type">Mua Kèm Deal Sốc</span>
-                                                        <span class="name-main-deal-type">Rẻ Vô Địch</span> -->
-                                                        <!-- <div class="name-main-sales-percent" style="color: rgb(246, 145, 19);">
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                                <span class="name-main__sales-percent-main">30%</span>
-                                                                <svg class="name-main__sales-percent-border" style="color: rgb(246, 145, 19);" viewBox="-0.5 -0.5 4 16">
-                                                                    <path d="M4 0h-3q-1 0 -1 1a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3v0.333a1.2 1.5 0 0 1 0 3q0 1 1 1h3" stroke-width="1" transform="rotate(180) translate(-3 -15)" stroke="currentColor" fill="#f69113">
-                                                                    </path>
-                                                                </svg>
-                                                            </div> -->
-                                                    </div>
-                                                </div>
-                                                <strong class="product-price">
-                                                    <span class="price-current">565.000₫ </span>
-                                                    <span class="price-and-discount">
-                                                        <label class="price-old black">
-                                                            790.000₫
-                                                        </label>
-                                                            <small class="price-present">-28%</small>
-                                                    </span>
-                                                </strong>
-                                                <div class="buy__now">
-                                                    <span> Mua ngay</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-                        <span class="none-pagination">Không còn sản phẩm!!</span>
-                        <ul class="pagination-list pagination-list-top">
-                            <li class="pagination-item">
-                                <a href="#" class="pagination-number-link">
-                                    <i class=" pagination-icon fa-solid fa-chevron-left"></i>
-                                </a>
-                            </li>
-                            <li class="pagination-item pagination-item--active">
-                                <a href="#" class="pagination-number-link">1</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="./Template/Category/ca.htm" class="pagination-number-link">2</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="./Template/Category/ca.htm" class="pagination-number-link">3</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="./Template/Category/ca.htm" class="pagination-number-link">4</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="./Template/Category/ca.htm" class="pagination-number-link">5</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="./Template/Category/ca.htm" class="pagination-number-link">...</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="./Template/Category/ca.htm" class="pagination-number-link">10</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="./Template/Category/ca.htm" class="pagination-number-link">
-                                    <i class=" pagination-icon fa-solid fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div';
+        <nav class="container__category">
+            <span class="header__category">Danh mục</span>
+            <ul class="category__list">
+                <li class="category__item">
+                    <a href="' . $basePath . 'Template/Category/Dien-thoai.php" class="category__item-link">
+                        <img src="' . $basePath . 'assets/imgs/phonne-24x24.png" alt="" class="category__item-icon">
+                        Điện thoại
+                    </a>
+                </li>
+                <li class="category__item">
+                    <a href="' . $basePath . 'Template/Category/Laptop.php" class="category__item-link">
+                        <img src="' . $basePath . 'assets/imgs/laptop-24x24.png" alt="" class="category__item-icon">
+                        Laptop
+                    </a>
+                </li>
+                <li class="category__item">
+                    <a href="' . $basePath . 'Template/Category/Smartwatch.php" class="category__item-link">
+                        <img src="' . $basePath . 'assets/imgs/smartwatch-24x24.png" alt="" class="category__item-icon">
+                        Smartwatch
+                    </a>
+                </li>
+                <li class="category__item">
+                    <a href="' . $basePath . 'Template/Category/Phu-kien.php" class="category__item-link">
+                        <img src="' . $basePath . 'assets/imgs/phu-kien-24x24.png" alt="" class="category__item-icon">
+                        Phụ kiện
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <nav class="container__category">
+            <span class="header__category">Tiện ích</span>
+            <ul class="category__list">
+                <li class="category__item">
+                    <a href="#" class="category__item-link">
+                        <img src="' . $basePath . 'assets/imgs/voucher.png" alt="" class="category__item-icon">
+                        Voucher
+                    </a>
+                </li>
+                <li class="category__item">
+                    <a href="#" class="category__item-link">
+                        <img src="' . $basePath . 'assets/imgs/tien-ich-24x24.png" alt="" class="category__item-icon">
+                        Đóng tiền, nạp thẻ
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>';
 }
 
 function addFooter(){

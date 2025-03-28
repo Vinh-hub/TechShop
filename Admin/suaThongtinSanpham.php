@@ -1,5 +1,5 @@
 <?php
-session_start(); // Khởi động session để lưu thông báo
+session_start();
 require_once "../BackEnd/DB_driver.php";
 
 $db = new DB_driver();
@@ -23,6 +23,7 @@ if (!$product) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tenSP = $_POST['product_name'] ?? '';
     $donGia = $_POST['price'] ?? '';
+    $phanTramGiam = $_POST['discount_percent'] ?? ''; // Phần trăm giảm giá
     $mau = $_POST['color'] ?? '';
     $dungLuong = $_POST['storage'] ?? '';
     $moTa = $_POST['description'] ?? '';
@@ -32,7 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Kiểm tra dữ liệu đầu vào
     $errors = [];
     if (empty($tenSP)) $errors[] = "Tên sản phẩm không được để trống.";
-    if (!is_numeric($donGia) || $donGia < 0) $errors[] = "Giá phải là số không âm.";
+    if (!is_numeric($donGia) || $donGia < 0) $errors[] = "Giá hiện tại phải là số không âm.";
+    if (!empty($giaCu) && (!is_numeric($giaCu) || $giaCu < 0)) $errors[] = "Giá cũ phải là số không âm.";
+    if (!empty($phanTramGiam) && (!is_numeric($phanTramGiam) || $phanTramGiam < 0 || $phanTramGiam > 100)) $errors[] = "Phần trăm giảm giá phải từ 0 đến 100.";
     if (empty($mau)) $errors[] = "Màu không được để trống.";
     if (empty($dungLuong)) $errors[] = "Dung lượng không được để trống.";
     if (empty($maLSP)) $errors[] = "Loại sản phẩm không được để trống.";
@@ -43,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $image_name = basename($_FILES["product_image"]["name"]);
         $target_file = $target_dir . $image_name;
         if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
-            $hinhAnh = $target_file; // Cập nhật đường dẫn hình ảnh mới
+            $hinhAnh = "/assets/imgs/" . $image_name; // Cập nhật đường dẫn hình ảnh mới
         } else {
             $errors[] = "Lỗi khi upload hình ảnh.";
         }
@@ -59,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = [
             'TenSP' => $tenSP,
             'DonGia' => $donGia,
+            'PhanTramGiam' => $phanTramGiam ?: null, // Lưu phần trăm giảm giá (NULL nếu không nhập)
             'Mau' => $mau,
             'DungLuong' => $dungLuong,
             'MoTa' => $moTa,
@@ -70,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result) {
             $_SESSION['message'] = "Cập nhật sản phẩm thành công!";
-            header("Location: quanlisanpham.php");
+            header("Location: Quanlisanpham.php");
             exit();
         } else {
             $errors[] = "Lỗi khi cập nhật sản phẩm.";
@@ -231,8 +235,12 @@ $db->dis_connect();
                 <input type="text" id="product-name" name="product_name" value="<?php echo htmlspecialchars($product['TenSP']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="price">Giá:</label>
+                <label for="price">Giá Hiện Tại:</label>
                 <input type="number" id="price" name="price" value="<?php echo $product['DonGia']; ?>" step="1" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="discount-percent">Phần Trăm Giảm Giá (nếu có):</label>
+                <input type="number" id="discount-percent" name="discount_percent" value="<?php echo $product['PhanTramGiam'] ?? ''; ?>" step="1" min="0" max="100">
             </div>
             <div class="form-group">
                 <label for="color">Màu:</label>
@@ -318,7 +326,7 @@ $db->dis_connect();
 
             // Nút Hủy
             cancelButton.addEventListener('click', function() {
-                window.location.href = 'quanlisanpham.php';
+                window.location.href = 'Quanlisanpham.php';
             });
         });
     </script>

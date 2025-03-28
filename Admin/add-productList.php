@@ -19,11 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Xử lý upload hình ảnh
     $hinh_anh = "";
     if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
-        $target_dir = "../assets/imgs/";
+        $target_dir = "../assets/imgs/"; // Thư mục lưu ảnh (tương đối từ admin/)
         $image_name = basename($_FILES["product_image"]["name"]);
         $target_file = $target_dir . $image_name;
         if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
-            $hinh_anh = $target_file;
+            // Lưu đường dẫn từ gốc: /assets/imgs/ten_anh
+            $hinh_anh = "/assets/imgs/" . $image_name;
         } else {
             echo "Lỗi khi upload hình ảnh.";
             exit();
@@ -63,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Ngắt kết nối
 $db->dis_connect();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,7 +109,6 @@ $db->dis_connect();
             font-size: 16px;
             margin-left: 10px;
         }
-       
     </style>
 </head>
 <body>
@@ -133,7 +134,7 @@ $db->dis_connect();
 
         <!-- Dung lượng -->
         <div class="form-group">
-            <label for="color">Dung lượng</label>
+            <label for="capacity">Dung lượng</label>
             <input type="text" id="capacity" name="capacity">
         </div>
 
@@ -148,11 +149,11 @@ $db->dis_connect();
             <label for="category">Loại sản phẩm</label>
             <select id="category" name="category" required>
                 <option value="">-- Danh mục --</option>
-                <option value="electronics">Điện thoại</option>
-                <option value="fashion">Laptop</option>
-                <option value="home">Đồng hồ</option>
-                <option value="beauty">Máy tính bảng</option>
-                <option value="sports">Màn hình</option>
+                <option value="1">Điện thoại</option>
+                <option value="2">Laptop</option>
+                <option value="3">Đồng hồ</option>
+                <option value="4">Máy tính bảng</option>
+                <option value="5">Màn hình</option>
             </select>
         </div>
 
@@ -182,15 +183,6 @@ $db->dis_connect();
     </form>
 </body>
 <script>
-//     // Chọn nút Thêm sản phẩm
-// document.querySelector('button[type="submit"]').addEventListener('click', function(event) {
-//     event.preventDefault(); // Ngăn form submit nếu có
-//     alert('Đã thêm sản phẩm');
-//     // Chuyển đến trang add-productList
-//     window.location.href = 'Quanlisanpham.php';
-// });
-
-// Chọn nút Làm lại
 document.querySelector('button[type="reset"]').addEventListener('click', function() {
     location.reload(); // Load lại trang
 });
