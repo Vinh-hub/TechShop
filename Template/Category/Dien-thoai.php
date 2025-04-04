@@ -87,7 +87,7 @@ $products = $db->get_list("SELECT * FROM sanpham WHERE MaLSP = ? LIMIT ?, ?", [$
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <p>Không có sản phẩm nào để hiển thị.</p>
+                                    <h1 style="font-size: 2.0rem; margin:auto auto;">Chưa có sản phẩm</h1>
                                 <?php endif; ?>
                             </div>
                         </article>

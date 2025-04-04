@@ -135,13 +135,13 @@ function addCTN__cate($basePath = '') {
             <span class="header__category">Tiện ích</span>
             <ul class="category__list">
                 <li class="category__item">
-                    <a href="#" class="category__item-link">
+                    <a href="' . $basePath . 'Template/Utility/voucher.php" class="category__item-link">
                         <img src="' . $basePath . 'assets/imgs/voucher.png" alt="" class="category__item-icon">
                         Voucher
                     </a>
                 </li>
                 <li class="category__item">
-                    <a href="#" class="category__item-link">
+                    <a href="' . $basePath . 'Template/Utility/khac.php" class="category__item-link">
                         <img src="' . $basePath . 'assets/imgs/tien-ich-24x24.png" alt="" class="category__item-icon">
                         Đóng tiền, nạp thẻ
                     </a>

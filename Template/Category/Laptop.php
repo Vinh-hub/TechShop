@@ -43,7 +43,7 @@ $products = $db->get_list("SELECT * FROM sanpham WHERE MaLSP = ? LIMIT ?, ?", [$
                     <?php addCTN__cate('../../'); ?>
                     <div class="col l-10 m-12 c-12">
                         <header class="row container__menu title_menu">
-                            <span class="title">Điện thoại</span>
+                            <span class="title">Laptop</span>
                         </header>
                         <article class="row protech container__product">
                             <div class="product-list">
@@ -87,7 +87,7 @@ $products = $db->get_list("SELECT * FROM sanpham WHERE MaLSP = ? LIMIT ?, ?", [$
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <p>Không có sản phẩm nào để hiển thị.</p>
+                                    <h1 style="font-size: 2.0rem; margin:auto auto;">Chưa có sản phẩm</h1>
                                 <?php endif; ?>
                             </div>
                         </article>
