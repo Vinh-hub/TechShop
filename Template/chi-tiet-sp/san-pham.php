@@ -6,6 +6,9 @@ require_once "../../php/function.php";
 $db = new DB_driver();
 $db->connect();
 
+// Kiểm tra trạng thái đăng nhập
+$isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']); // Giả sử 'user_id' là key lưu thông tin đăng nhập
+
 // Lấy mã sản phẩm từ URL
 $maSP = isset($_GET['maSP']) && $_GET['maSP'] !== '' ? $_GET['maSP'] : null;
 if (!$maSP) {
@@ -76,9 +79,13 @@ $giaMoi = !empty($product['PhanTramGiam']) && $product['PhanTramGiam'] > 0 && $p
                     <div class="col l-4 m-0 c-0">
                         <div class="product-option">
                             <div class="name-product"><?php echo htmlspecialchars($product['TenSP']); ?></div>
+                            <?php if (!empty($product['DungLuong'])): ?>
                             <div class="options-GB"> 
-                                <p class="options-GB-link active"><?php echo htmlspecialchars($product['DungLuong']); ?> GB</p>
-                            </div> 
+                                <p class="options-GB-link active">
+                                    <?php echo htmlspecialchars($product['DungLuong']) . " GB"; ?>
+                                </p>
+                            </div>
+                            <?php endif; ?> 
                             <div class="options-color"> 
                                 <p class="options-color-link active"><?php echo htmlspecialchars($product['Mau']); ?></p>
                             </div> 
@@ -97,8 +104,13 @@ $giaMoi = !empty($product['PhanTramGiam']) && $product['PhanTramGiam'] > 0 && $p
                                 </div>
                             </div>
                             <div class="product-option-actions">
-                                <button class="btn--option-actions add-to-cart" onclick="handleAddToCart(this)">Thêm vào giỏ</button>
-                                <button class="btn--option-actions buy-now" onclick="handleBuyNow()">Mua ngay</button>
+                                <?php if ($isLoggedIn): ?>
+                                    <button class="btn--option-actions add-to-cart" onclick="handleAddToCart(this)">Thêm vào giỏ</button>
+                                    <button class="btn--option-actions buy-now" onclick="handleBuyNow()">Mua ngay</button>
+                                <?php else: ?>
+                                    <button class="btn--option-actions add-to-cart" onclick="alert('Vui lòng đăng nhập để thêm vào giỏ hàng!'); window.location.href='../formNK.php';">Thêm vào giỏ</button>
+                                    <button class="btn--option-actions buy-now" onclick="alert('Vui lòng đăng nhập để mua hàng!'); window.location.href='../formNK.php';">Mua ngay</button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

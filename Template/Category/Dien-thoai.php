@@ -46,6 +46,38 @@ $products = $db->get_list("SELECT * FROM sanpham WHERE MaLSP = ? LIMIT ?, ?", [$
                             <span class="title">Điện thoại</span>
                         </header>
                         <article class="row protech container__product">
+                        <header class="product-choice hide-on-mobile-table">
+                                <span class="product-filter">Sắp xếp theo</span>
+                                <div class="produce__btn-group">
+                                    <section class="produce__btn-option poppular">
+                                        <button id="btn-more">
+                                            <i class="fa-solid fa-filter"></i>
+                                        </button>
+                                        <button class="btn-custom btn-sixe-s popular">
+                                            Phổ biến
+                                        </button>
+                                        <button class="btn-custom btn-sixe-s latest ">
+                                            Mới nhất
+                                        </button>
+                                        <button class="btn-custom btn-sixe-s bestseller">
+                                            Bán chạy
+                                        </button>
+                                        
+                                    </section>
+                                    <section class="header-produce__select-input">
+                                        <button class="btn-custom-price btn-select-input btn-sixe-s">
+                                            <span class="select-input-item">Giá</span>
+                                            <i class="select-input-icon fa-solid fa-chevron-down"></i>
+                                            <div class="select-input-price">
+                                                <ul class="select-price-list">
+                                                    <li class="select-price-item asc">Thấp đến cao</li>
+                                                    <li class="select-price-item desc">Cao đến thấp</li>
+                                                </ul>
+                                            </div>
+                                        </button>
+                                    </section>
+                                </div>
+                            </header>
                             <div class="product-list">
                                 <?php if (!empty($products)): ?>
                                     <?php foreach ($products as $row): ?>
@@ -110,5 +142,66 @@ $products = $db->get_list("SELECT * FROM sanpham WHERE MaLSP = ? LIMIT ?, ?", [$
         </section>
         <?php addFooter('../../'); ?>
     </div>
+    <div class="modal-review" style="display: none;">
+        <div class="modal__overlay"></div>
+        <div class="modal__body">
+            <div class="filter-container">
+                <div>
+                    <input type="text" class="search3 " placeholder ="Nhập thông tin để tìm kiếm sản phẩm ">
+                    <!-- <button type="button" class="header_search-button"> Tìm kiếm </button>   -->
+                </div>
+                <!-- Bộ lọc Hãng -->
+                <div class="filter-section">
+                  <h3>Hãng</h3>
+                  <div class="filter-options brand-options">
+                    <button>Samsung</button>
+                    <button>iPhone</button>
+                    <button>Oppo</button>
+                    <button>Tecno</button>
+                    <button>Nokia</button>
+                    <button>Masstel</button>
+                  </div>
+                </div>
+            
+                <!-- Bộ lọc Giá -->
+                <div class="filter-section">
+                  <h3>Giá</h3>
+                  <div class="filter-options price-range">
+                    <button>Dưới 2 triệu</button>
+                    <button>Từ 2 - 4 triệu</button>
+                    <button>Từ 4 - 7 triệu</button>
+                    <button>Từ 7 - 13 triệu</button>
+                    <button>Từ 13 - 20 triệu</button>
+                    <button>Trên 20 triệu</button>
+                  </div>
+                  <div class="custom-price">
+                    <p>Hoặc chọn mức giá phù hợp với bạn</p>
+                    <!-- <div class="price-slider">
+                        <div>
+                            <input type="number" class="price-MM" id="min-price" value="300000" min="300000" max="50000000">đ
+                            <input type="number" class="price-MM" id="max-price" value="50000000" min="300000" max="50000000">đ
+                        </div>
+                      <input type="range" id="price-range" min="0" max="50000000" value="300000" step="100000">
+                    </div> -->
+                    <div class="range-container">
+                        <input type="range" id="min-range" min="300000" max="50000000" value="300000" step="100000">
+                        <input type="range" id="max-range" min="300000" max="50000000" value="50000000" step="100000">
+                        <div class="progress-bar" id="progress"></div>
+                      </div>
+                      <div class="slider-labels">
+                        <span id="min-label">300.000đ</span>
+                        <span id="max-label">50.000.000đ</span>
+                      </div>
+                </div>
+
+                <!-- btn -->
+                <div class="btn-search2">
+                    <button class="btn search2-save">Lưu</button>
+                    <button class="btn search2-cancel">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="../../js/template.js"></script>
 </html>

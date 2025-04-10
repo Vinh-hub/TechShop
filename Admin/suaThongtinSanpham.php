@@ -40,7 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($giaCu) && (!is_numeric($giaCu) || $giaCu < 0)) $errors[] = "Giá cũ phải là số không âm.";
     if (!empty($phanTramGiam) && (!is_numeric($phanTramGiam) || $phanTramGiam < 0 || $phanTramGiam > 100)) $errors[] = "Phần trăm giảm giá phải từ 0 đến 100.";
     if (empty($mau)) $errors[] = "Màu không được để trống.";
-    if (empty($dungLuong)) $errors[] = "Dung lượng không được để trống.";
+    // if (empty($dungLuong)) $errors[] = "Dung lượng không được để trống.";
+    $dungLuong = !empty($dungLuong) ? $dungLuong : null;
     if (empty($maLSP)) $errors[] = "Loại sản phẩm không được để trống.";
 
     // Xử lý upload hình ảnh mới
@@ -67,7 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'DonGia' => $donGia,
             'PhanTramGiam' => $phanTramGiam ?: null, // Lưu phần trăm giảm giá (NULL nếu không nhập)
             'Mau' => $mau,
-            'DungLuong' => $dungLuong,
+            // 'DungLuong' => $dungLuong,
+            'DungLuong' => !empty($dungLuong) ? $dungLuong : null,
             'MoTa' => $moTa,
             'MaLSP' => $maLSP,
             'HinhAnh' => $hinhAnh
@@ -265,7 +267,7 @@ $db->dis_connect();
             </div>
             <div class="form-group">
                 <label for="storage">Dung Lượng:</label>
-                <input type="text" id="storage" name="storage" value="<?php echo htmlspecialchars($product['DungLuong']); ?>" required>
+                <input type="text" id="storage" name="storage" value="<?php echo htmlspecialchars($product['DungLuong'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="category">Loại sản phẩm:</label>
