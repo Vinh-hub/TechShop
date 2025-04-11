@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+session_start();
 require_once "../../BackEnd/DB_driver.php";
 require_once "../../php/function.php";
 
@@ -7,16 +7,13 @@ $db = new DB_driver();
 $db->connect();
 
 // Kiểm tra trạng thái đăng nhập
-$isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']); // Giả sử 'user_id' là key lưu thông tin đăng nhập
+$isLoggedIn = isset($_SESSION['MaND']) && !empty($_SESSION['MaND']); // Sử dụng MaND để đồng bộ với giohang.php
 
 // Lấy mã sản phẩm từ URL
-$maSP = isset($_GET['maSP']) && $_GET['maSP'] !== '' ? $_GET['maSP'] : null;
+$maSP = isset($_GET['maSP']) && $_GET['maSP'] !== '' ? (int)$_GET['maSP'] : null;
 if (!$maSP) {
     die("Không tìm thấy sản phẩm! Vui lòng cung cấp mã sản phẩm hợp lệ.");
 }
-
-// Debug giá trị maSP
-// echo "Debug: maSP = " . var_export($maSP, true) . "<br>";
 
 // Truy vấn thông tin sản phẩm từ cơ sở dữ liệu
 $product = $db->get_row("SELECT * FROM sanpham WHERE MaSP = ?", [$maSP]);
@@ -104,13 +101,8 @@ $giaMoi = !empty($product['PhanTramGiam']) && $product['PhanTramGiam'] > 0 && $p
                                 </div>
                             </div>
                             <div class="product-option-actions">
-                                <?php if ($isLoggedIn): ?>
-                                    <button class="btn--option-actions add-to-cart" onclick="handleAddToCart(this)">Thêm vào giỏ</button>
-                                    <button class="btn--option-actions buy-now" onclick="handleBuyNow()">Mua ngay</button>
-                                <?php else: ?>
-                                    <button class="btn--option-actions add-to-cart" onclick="alert('Vui lòng đăng nhập để thêm vào giỏ hàng!'); window.location.href='../formNK.php';">Thêm vào giỏ</button>
-                                    <button class="btn--option-actions buy-now" onclick="alert('Vui lòng đăng nhập để mua hàng!'); window.location.href='../formNK.php';">Mua ngay</button>
-                                <?php endif; ?>
+                                <button class="btn--option-actions add-to-cart" onclick="handleAddToCart(<?php echo $maSP; ?>)">Thêm vào giỏ</button>
+                                <button class="btn--option-actions buy-now" onclick="handleBuyNow(<?php echo $maSP; ?>)">Mua ngay</button>
                             </div>
                         </div>
                     </div>
@@ -119,28 +111,92 @@ $giaMoi = !empty($product['PhanTramGiam']) && $product['PhanTramGiam'] > 0 && $p
         </article>
         <?php addFooter('../../'); ?>
     </div>
-</body>
-<script src="../../../main.js"></script>
-<script src="./assets/ctsp.js"></script>
-<script src="../../item.js"></script>
-<script src="../../cart.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const accountLink = document.getElementById('account-link');
-        const accountIconLink = document.getElementById('account-icon-link');
 
-        function handleAccountLinkClick(event) {
-            event.preventDefault();
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            if (isLoggedIn) {
-                window.location.href = `../../Information.htm`;
-            } else {
-                window.location.href = `../../Category/formNK.htm`;
+    <script src="./assets/ctsp.js"></script>
+    <script src="../../item.js"></script>
+    <script src="../../cart.js"></script>
+    <script>
+        // Xử lý đăng nhập cho nút "Tài khoản"
+        document.addEventListener("DOMContentLoaded", () => {
+            const accountLink = document.getElementById('account-link');
+            const accountIconLink = document.getElementById('account-icon-link');
+
+            function handleAccountLinkClick(event) {
+                event.preventDefault();
+                const isLoggedIn = <?php echo json_encode($isLoggedIn); ?>;
+                if (isLoggedIn) {
+                    window.location.href = `../Information.php`;
+                } else {
+                    window.location.href = `../formNK.php`;
+                }
             }
+
+            if (accountLink) accountLink.addEventListener('click', handleAccountLinkClick);
+            if (accountIconLink) accountIconLink.addEventListener('click', handleAccountLinkClick);
+        });
+
+        // Xử lý "Thêm vào giỏ hàng"
+        function handleAddToCart(maSP) {
+            const isLoggedIn = <?php echo json_encode($isLoggedIn); ?>;
+            if (!isLoggedIn) {
+                alert('Vui lòng đăng nhập để thêm vào giỏ hàng!');
+                window.location.href = '../formNK.php';
+                return;
+            }
+
+            // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+            fetch(`../../giohang.php?action=add&maSP=${maSP}`, {
+                method: 'GET'
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert('Sản phẩm đã được thêm vào giỏ hàng!');
+                // Cập nhật số lượng sản phẩm trong giỏ hàng trên giao diện
+                fetchCartCount();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
+            });
         }
 
-        if (accountLink) accountLink.addEventListener('click', handleAccountLinkClick);
-        if (accountIconLink) accountIconLink.addEventListener('click', handleAccountLinkClick);
-    });
-</script>
+        // Xử lý "Mua ngay"
+        function handleBuyNow(maSP) {
+            const isLoggedIn = <?php echo json_encode($isLoggedIn); ?>;
+            if (!isLoggedIn) {
+                alert('Vui lòng đăng nhập để mua hàng!');
+                window.location.href = '../formNK.php';
+                return;
+            }
+
+            // Thêm sản phẩm vào giỏ hàng trước khi chuyển hướng đến trang mua ngay
+            fetch(`../giohang.php?action=add&maSP=${maSP}`, {
+                method: 'GET'
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Chuyển hướng đến trang mua ngay
+                window.location.href = '../Info.php';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi xử lý mua ngay.');
+            });
+        }
+
+        // Hàm lấy số lượng sản phẩm trong giỏ hàng để cập nhật giao diện
+        function fetchCartCount() {
+            fetch('../../giohang.php?action=getCartCount')
+            .then(response => response.json())
+            .then(data => {
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = data.cartCount;
+                }
+            })
+            .catch(error => console.error('Error fetching cart count:', error));
+        }
+    </script>
+</body>
+<link rel="stylesheet" href="../">
 </html>

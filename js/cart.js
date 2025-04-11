@@ -1,19 +1,5 @@
 
-// Nhập văn bản có gợi ý 
-
-    // Mảng chứa danh sách sản phẩm
-    const products = [
-        "Iphone 14 Pro Max",
-        "Iphone 13 Mini",
-        "AirPod Pro 2",
-        "Laptop Dell Precision",
-        "Samsung Galaxy S23",
-        "Apple Watch Series 8",
-        "MacBook Pro M2",
-        "Đồng hồ thông minh"
-    
-    ];
-    
+   
     // Lấy các phần tử HTML cần thiết
     const searchInput = document.querySelector('.header_search-input');
     const searchHistoryList = document.querySelector('.header_navbar-search-history-list');
@@ -288,5 +274,41 @@
     btnSearch.addEventListener('click', ()=>{
         window.location.href = `./Category/resultSearch.htm`;
     });
-    
-    
+
+
+//giahang.php
+    // Cập nhật trạng thái giỏ hàng
+    function updateCartStatus() {
+        const cartProducts = document.querySelectorAll('.header_cart-wrap');
+        const cartEmptyMessage = document.querySelector('.header_navbar-cart');
+        const cartFooter = document.querySelector('.cart_footer');
+
+        if (cartProducts.length === 0) {
+            cartEmptyMessage.style.display = 'block';
+            cartFooter.style.display = 'none';
+        } else {
+            cartEmptyMessage.style.display = 'none';
+            cartFooter.style.display = 'flex';
+        }
+
+        // Cập nhật số lượng sản phẩm trong giỏ hàng
+        const cartCountElement = document.getElementById('cart-count');
+        cartCountElement.textContent = cartProducts.length;
+        localStorage.setItem('cartCount', cartProducts.length);
+    }
+
+    // Tính tổng giá
+    function calculateTotalPrice() {
+        let total = 0;
+        const priceElements = document.querySelectorAll('.header_cart-price-1[data-price]');
+        priceElements.forEach(function (priceElement) {
+            const price = parseInt(priceElement.getAttribute('data-price')) || 0;
+            total += price;
+        });
+        const footerPriceElement = document.querySelector('.footer-price');
+        footerPriceElement.textContent = total.toLocaleString('vi-VN') + 'đ';
+    }
+
+    // Khởi tạo trạng thái ban đầu
+    updateCartStatus();
+    calculateTotalPrice();

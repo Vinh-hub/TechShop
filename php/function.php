@@ -62,7 +62,7 @@ function addHeader($basePath = '') {
                             </a>
                         </li>
                         <li class="header_navbar-item">
-                            <a href="' . $basePath . 'Template/Cart.php" class="header_navbar-icon-link">
+                            <a href="' . $basePath . 'giohang.php" class="header_navbar-icon-link">
                                 <i class="header_navbar-icon-cart fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span>
                             </a>
                         </li>
