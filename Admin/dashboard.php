@@ -21,11 +21,8 @@
             <!-- Hộp tài khoản Admin -->
             <div class="admin-box" id="adminBox">
                 <ul>
-                    <p> Tên tài khoản ProTech </p>
-                    <li><a href="#" onclick="changePassword()">Change Password</a></li>
-                    <li><a href="../index.php" onclick="logout()">Logout</a></li>
-
-
+                    <p> PV Admin </p>
+                    <li><a href="../login.php" onclick="logout()">Đăng xuất</a></li>
                 </ul>
             </div>
             <div class="welcome">ProTech</div>
