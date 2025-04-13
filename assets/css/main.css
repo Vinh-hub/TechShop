@@ -602,7 +602,7 @@
 
 
 .info-product{
-    height:180px;
+    height: auto;
     width:800px;
     margin-left:auto;
     margin-right: auto;
@@ -611,8 +611,7 @@
     border-radius: 5px;
     background-color: white;
     box-shadow: 0 1px 3.123rem 0 rgba(153, 150, 150, 0.2);
-    display:flex
-
+    display:flex;
 }
 
 .info-product-img{
@@ -772,9 +771,13 @@
     margin-left:auto;
     margin-right: auto;
     margin-top:10px;
-
-
 }
+.radio label{ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #radio1{
     width:13px;
     height:13px;

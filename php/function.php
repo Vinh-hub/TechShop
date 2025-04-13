@@ -4,6 +4,11 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 function addHeader($basePath = '') {
+    // Kiểm tra nếu người dùng đã đăng nhập
+    $isLoggedIn = isset($_SESSION['MaND']);
+    $taiKhoan = $isLoggedIn ? $_SESSION['TaiKhoan'] : 'Tài khoản';
+    $accountLink = $isLoggedIn ? $basePath . 'Template/Information.php' : $basePath . 'Template/formNK.php';
+
     echo '
     <header class="header">
         <div class="grid wide"> 
@@ -47,11 +52,11 @@ function addHeader($basePath = '') {
                             <a href="' . $basePath . 'index.php" class="header_navbar-icon-link header_navbar-link--strong home-page">Trang chủ</a>
                         </li>
                         <li class="header_navbar-item">
-                            <a href="' . $basePath . 'Template/Information.php" class="header_navbar-item-link">
-                                <a href="#" class="header_navbar-icon-link" id="account-icon-link">
+                            <a href="' . $accountLink . '" class="header_navbar-item-link">
+                                <a href="' . $accountLink . '" class="header_navbar-icon-link" id="account-icon-link">
                                     <i class="fa-regular fa-face-smile-wink"></i>
                                 </a>
-                                <a href="#" class="header_navbar-icon-link header_navbar-link--strong" id="account-link">Tài khoản</a>
+                                <a href="' . $accountLink . '" class="header_navbar-icon-link header_navbar-link--strong" id="account-link">' . $taiKhoan . '</a>
                             </a>
                         </li>
                         <li class="header_navbar-item header_navbar-item-no-pointer">
@@ -293,4 +298,13 @@ function addFooter($basePath = '') {
         </div>
     </footer>';
 }
+
+function generateCsrfToken() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
 ?>
+

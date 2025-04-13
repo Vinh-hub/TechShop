@@ -162,27 +162,16 @@ $giaMoi = !empty($product['PhanTramGiam']) && $product['PhanTramGiam'] > 0 && $p
 
         // Xử lý "Mua ngay"
         function handleBuyNow(maSP) {
-            const isLoggedIn = <?php echo json_encode($isLoggedIn); ?>;
-            if (!isLoggedIn) {
-                alert('Vui lòng đăng nhập để mua hàng!');
-                window.location.href = '../formNK.php';
-                return;
-            }
+    const isLoggedIn = <?php echo json_encode($isLoggedIn); ?>;
+    if (!isLoggedIn) {
+        alert('Vui lòng đăng nhập để mua hàng!');
+        window.location.href = '../formNK.php';
+        return;
+    }
 
-            // Thêm sản phẩm vào giỏ hàng trước khi chuyển hướng đến trang mua ngay
-            fetch(`../giohang.php?action=add&maSP=${maSP}`, {
-                method: 'GET'
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Chuyển hướng đến trang mua ngay
-                window.location.href = '../Info.php';
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi xử lý mua ngay.');
-            });
-        }
+    // Chuyển hướng trực tiếp đến trang mua ngay với mã sản phẩm
+    window.location.href = `../buyNow.php?maSP=${maSP}`;
+}
 
         // Hàm lấy số lượng sản phẩm trong giỏ hàng để cập nhật giao diện
         function fetchCartCount() {

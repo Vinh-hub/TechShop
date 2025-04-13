@@ -118,34 +118,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="info-product-heading">
                     <span class="info-product-heading-item">Thông tin sản phẩm</span>
                 </div>
-                <div class="info-product">
-                    <?php foreach ($cartItems as $item): ?>
-                        <?php
-                        $giaMoi = !empty($item['PhanTramGiam']) && $item['PhanTramGiam'] > 0 && $item['PhanTramGiam'] < 100
-                            ? $item['DonGia'] * (1 - ($item['PhanTramGiam'] / 100))
-                            : $item['DonGia'];
-                        ?>
-                        <div class="info-product-item">
-                            <img class="info-product-img" src="<?php echo htmlspecialchars($item['HinhAnh']); ?>" alt="<?php echo htmlspecialchars($item['TenSP']); ?>">
-                        </div>
-                        <div class="info-product-discribe">
-                            <span class="discribe-item"><?php echo htmlspecialchars($item['TenSP']); ?></span>
-                            <span class="discribe-price"><?php echo number_format($giaMoi, 0, ',', '.'); ?>đ</span>
-                            <?php if (!empty($item['PhanTramGiam']) && $item['PhanTramGiam'] > 0): ?>
-                                <span class="discribe-price-sub"><?php echo number_format($item['DonGia'], 0, ',', '.'); ?>đ</span>
-                            <?php endif; ?>
-                            <ul class="discribe-list">
-                                <li class="discribe-list-item">Sản phẩm chính hãng, chất lượng cao</li>
-                                <li class="discribe-list-item">Bảo hành 12 tháng</li>
-                                <li class="discribe-list-item">Hỗ trợ giao hàng nhanh</li>
-                            </ul>
-                        </div>
-                        <div class="info-product-count">
-                            <span class="count-item">Số lượng:</span>
-                            <span class="count"><?php echo $item['SoLuong']; ?></span>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+                <div class="info-product-container">
+                <?php foreach ($cartItems as $item): ?>
+        <?php
+        $giaMoi = !empty($item['PhanTramGiam']) && $item['PhanTramGiam'] > 0 && $item['PhanTramGiam'] < 100
+            ? $item['DonGia'] * (1 - ($item['PhanTramGiam'] / 100))
+            : $item['DonGia'];
+        ?>
+        <div class="info-product">
+            <div class="info-product-item">
+                <img class="info-product-img" src="..<?php echo htmlspecialchars($item['HinhAnh']); ?>" alt="<?php echo htmlspecialchars($item['TenSP']); ?>">
+            </div>
+            <div class="info-product-discribe">
+                <span class="discribe-item"><?php echo htmlspecialchars($item['TenSP']); ?></span>
+                <span class="discribe-price"><?php echo number_format($giaMoi, 0, ',', '.'); ?>đ</span>
+                <?php if (!empty($item['PhanTramGiam']) && $item['PhanTramGiam'] > 0): ?>
+                    <span class="discribe-price-sub"><?php echo number_format($item['DonGia'], 0, ',', '.'); ?>đ</span>
+                <?php endif; ?>
+                <ul class="discribe-list">
+                    <li class="discribe-list-item">Sản phẩm chính hãng, chất lượng cao</li>
+                    <li class="discribe-list-item">Bảo hành 12 tháng</li>
+                    <li class="discribe-list-item">Hỗ trợ giao hàng nhanh</li>
+                </ul>
+            </div>
+            <div class="info-product-count">
+                <span class="count-item">Số lượng:</span>
+                <span class="count"><?php echo $item['SoLuong']; ?></span>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
 
                 <!-- Thông tin khách hàng -->
                 <div class="info-item">
