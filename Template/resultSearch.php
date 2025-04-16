@@ -1,45 +1,52 @@
 <?php
 session_start();
-require_once "../../BackEnd/DB_driver.php";
-require_once "../../php/function.php";
+require_once "../BackEnd/DB_driver.php";
+require_once "../php/function.php";
 
 $db = new DB_driver();
 $db->connect();
 
-// Lấy categoryId từ tham số GET, mặc định là 1 nếu không có
-$categoryId = isset($_GET['categoryId']) && (int)$_GET['categoryId'] > 0 ? (int)$_GET['categoryId'] : 1;
-
-// Lấy thông tin danh mục để hiển thị tiêu đề
-$category = $db->get_row("SELECT TenLSP FROM loaisanpham WHERE MaLSP = ?", [$categoryId]);
-if (!$category) {
-    echo "Danh mục không tồn tại.";
-    exit();
-}
-
-$perPage = 10;
-$page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $perPage;
-
-// Lấy tham số lọc giá từ GET
+// Lấy tham số tìm kiếm và bộ lọc
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 $minPrice = isset($_GET['minPrice']) ? (int)$_GET['minPrice'] : 0;
 $maxPrice = isset($_GET['maxPrice']) ? (int)$_GET['maxPrice'] : PHP_INT_MAX;
+$categoryId = isset($_GET['categoryId']) && (int)$_GET['categoryId'] > 0 ? (int)$_GET['categoryId'] : 0;
+$page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
+$perPage = 10;
+$offset = ($page - 1) * $perPage;
 
-// Điều kiện lọc giá dựa trên giá mới (giaMoi)
+// Lưu lịch sử tìm kiếm
+if (!empty($searchTerm)) {
+    saveSearchHistory($db, $searchTerm);
+}
+
+// Xây dựng truy vấn SQL
+$query = "SELECT * FROM sanpham WHERE 1=1";
+$params = [];
 $priceCondition = '';
-$params = [$categoryId];
+
+if (!empty($searchTerm)) {
+    $query .= " AND TenSP LIKE ?";
+    $params[] = "%$searchTerm%";
+}
+if ($categoryId > 0) {
+    $query .= " AND MaLSP = ?";
+    $params[] = $categoryId;
+}
 if ($minPrice > 0 || $maxPrice < PHP_INT_MAX) {
-    $priceCondition = 'AND (DonGia * (1 - COALESCE(PhanTramGiam, 0) / 100)) BETWEEN ? AND ?';
+    $priceCondition = " AND (DonGia * (1 - COALESCE(PhanTramGiam, 0) / 100)) BETWEEN ? AND ?";
     $params[] = $minPrice;
     $params[] = $maxPrice;
 }
 
-// Tính tổng số sản phẩm với điều kiện lọc giá
-$totalProductsQuery = "SELECT COUNT(*) as total FROM sanpham WHERE MaLSP = ? $priceCondition";
-$totalProducts = $db->get_row($totalProductsQuery, $params)['total'];
+// Tính tổng số sản phẩm
+$totalQuery = "SELECT COUNT(*) as total FROM sanpham WHERE 1=1" . ($searchTerm ? " AND TenSP LIKE ?" : "") . ($categoryId > 0 ? " AND MaLSP = ?" : "") . $priceCondition;
+$totalParams = array_merge($searchTerm ? ["%$searchTerm%"] : [], $categoryId > 0 ? [$categoryId] : [], $minPrice > 0 || $maxPrice < PHP_INT_MAX ? [$minPrice, $maxPrice] : []);
+$totalProducts = $db->get_row($totalQuery, $totalParams)['total'];
 $totalPages = ceil($totalProducts / $perPage);
 
-// Lấy danh sách sản phẩm với điều kiện lọc giá
-$query = "SELECT * FROM sanpham WHERE MaLSP = ? $priceCondition LIMIT ?, ?";
+// Lấy danh sách sản phẩm
+$query .= $priceCondition . " LIMIT ?, ?";
 $params[] = $offset;
 $params[] = $perPage;
 $products = $db->get_list($query, $params);
@@ -50,25 +57,26 @@ $products = $db->get_list($query, $params);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProTech - <?php echo htmlspecialchars($category['TenLSP']); ?></title>
-    <link rel="icon" type="image/x-icon" href="../../assets/imgs/logo-tab.png">
-    <link rel="stylesheet" href="../../assets/css/base.css">
-    <link rel="stylesheet" href="../../assets/css/main.css">
-    <link rel="stylesheet" href="../../assets/css/grid.css">
-    <link rel="stylesheet" href="../../assets/css/responsive.css">
-    <link rel="stylesheet" href="../../assets/fonts/fontawesome-free-6.6.0-web/fontawesome-free-6.6.0-web/css/all.min.css">
+    <title>ProTech - Mua hàng Online giá rẻ</title>
+    <link rel="icon" type="image/x-icon" href="../assets/imgs/logo-tab.png">
+    <link rel="stylesheet" href="../normalize.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/grid.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/fonts/fontawesome-free-6.6.0-web/fontawesome-free-6.6.0-web/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="web6713">
-        <?php addHeader('../../', $db); ?>
+        <?php addHeader('../', $db); ?>
         <section class="container">
             <div class="grid wide">
                 <div class="row">
-                    <?php addCTN__cate('../../'); ?>
+                    <?php addCTN__cate('../'); ?>
                     <div class="col l-10 m-12 c-12">
                         <header class="row container__menu title_menu">
-                            <span class="title"><?php echo htmlspecialchars($category['TenLSP']); ?></span>
+                            <span class="title">Kết quả tìm kiếm<?php echo $searchTerm ? ' cho "' . htmlspecialchars($searchTerm) . '"' : ''; ?></span>
                         </header>
                         <article class="row protech container__product">
                             <header class="product-choice hide-on-mobile-table">
@@ -95,7 +103,7 @@ $products = $db->get_list($query, $params);
                                             : $row['DonGia'];
                                         ?>
                                         <div class="col l-2-4 m-3 c-6 product-item">
-                                            <a href="../chi-tiet-sp/san-pham.php?maSP=<?php echo htmlspecialchars($row['MaSP']); ?>" class="product-item-link">
+                                            <a href="./chi-tiet-sp/san-pham.php?maSP=<?php echo htmlspecialchars($row['MaSP']); ?>" class="product-item-link">
                                                 <div class="product-item-group">
                                                     <div class="product-item-img" style="background-image: url('<?php echo htmlspecialchars($displayImagePath); ?>');"></div>
                                                     <div class="product-item-info">
@@ -120,13 +128,16 @@ $products = $db->get_list($query, $params);
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <h1 style="font-size: 2.0rem; margin: auto;">Chưa có sản phẩm</h1>
+                                    <h1 style="font-size: 2.0rem; margin: auto;">Không tìm thấy sản phẩm</h1>
                                 <?php endif; ?>
                             </div>
                         </article>
                         <ul class="pagination-list pagination-list-top">
                             <?php
-                            $baseUrl = "?categoryId=$categoryId";
+                            $baseUrl = "?search=" . urlencode($searchTerm);
+                            if ($categoryId > 0) {
+                                $baseUrl .= "&categoryId=$categoryId";
+                            }
                             if ($minPrice > 0) {
                                 $baseUrl .= "&minPrice=$minPrice";
                             }
@@ -148,14 +159,14 @@ $products = $db->get_list($query, $params);
                 </div>
             </div>
         </section>
-        <?php addFooter('../../'); ?>
+        <?php addFooter('../'); ?>
     </div>
     <div class="modal-review" style="display: none;">
         <div class="modal__overlay"></div>
         <div class="modal__body">
             <div class="filter-container">
                 <div>
-                    <input type="text" class="search3" placeholder="Nhập thông tin để tìm kiếm sản phẩm">
+                    <input type="text" class="search3" placeholder="Nhập thông tin để tìm kiếm sản phẩm" value="<?php echo htmlspecialchars($searchTerm); ?>">
                 </div>
                 <div class="filter-section">
                     <h3>Hãng</h3>
@@ -198,10 +209,65 @@ $products = $db->get_list($query, $params);
             </div>
         </div>
     </div>
-    <script src="../../js/template.js"></script>
+    <script src="../assets/js/template.js"></script>
     <script>
-        // Truyền categoryId từ PHP sang JavaScript
-        const currentCategoryId = <?php echo json_encode($categoryId); ?>;
+        // Xử lý nút tìm kiếm
+        const btnSearch = document.querySelector('.header_search-button');
+        btnSearch.addEventListener('click', () => {
+            const searchTerm = document.querySelector('.header_search-input').value;
+            window.location.href = `?search=${encodeURIComponent(searchTerm)}`;
+        });
+
+        // Xử lý nút lọc
+        const btnMore = document.getElementById('btn-more');
+        const modal = document.querySelector('.modal-review');
+        btnMore.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        // Xử lý nút lưu bộ lọc
+        document.querySelector('.search2-save').addEventListener('click', () => {
+            const searchTerm = document.querySelector('.search3').value;
+            const minPrice = document.getElementById('min-range').value;
+            const maxPrice = document.getElementById('max-range').value;
+            window.location.href = `?search=${encodeURIComponent(searchTerm)}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+        });
+
+        // Xử lý nút hủy
+        document.querySelector('.search2-cancel').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        document.querySelector('.modal__overlay').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Xử lý thanh trượt giá
+        const minRange = document.getElementById('min-range');
+        const maxRange = document.getElementById('max-range');
+        const progress = document.getElementById('progress');
+        const minLabel = document.getElementById('min-label');
+        const maxLabel = document.getElementById('max-label');
+
+        minRange.addEventListener('input', () => {
+            minLabel.textContent = `${parseInt(minRange.value).toLocaleString()}đ`;
+            updateProgress();
+        });
+
+        maxRange.addEventListener('input', () => {
+            maxLabel.textContent = `${parseInt(maxRange.value).toLocaleString()}đ`;
+            updateProgress();
+        });
+
+        function updateProgress() {
+            const minValue = parseInt(minRange.value);
+            const maxValue = parseInt(maxRange.value);
+            const rangeWidth = maxRange.max - minRange.min;
+            const progressWidth = ((maxValue - minValue) / rangeWidth) * 100;
+            const progressLeft = ((minValue - minRange.min) / rangeWidth) * 100;
+            progress.style.left = `${progressLeft}%`;
+            progress.style.width = `${progressWidth}%`;
+        }
+        updateProgress();
     </script>
 </body>
 </html>

@@ -84,3 +84,8 @@ document.getElementById('dnAdmin').addEventListener('click', function(e) {
     this.classList.toggle('active');
     this.textContent = this.classList.contains('active') ? 'Đăng nhập với tư cách người dùng' : 'Đăng nhập với tư cách là Admin';
 });     
+
+document.querySelector('.modal__img').addEventListener('click', function() {
+    window.location.href = '../index.php';
+});
+

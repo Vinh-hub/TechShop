@@ -9,7 +9,7 @@ $db->connect();
 $topDeals = $db->get_list("SELECT * FROM sanpham LIMIT 6");
 
 $perPage = 6;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $perPage;
 $totalProducts = $db->get_row("SELECT COUNT(*) as total FROM sanpham")['total'];
 $totalPages = ceil($totalProducts / $perPage);
@@ -35,33 +35,20 @@ function addContainer() {
     
     // Hiển thị TOP DEAL
     foreach ($topDeals as $row) {
-        // Debug giá trị HinhAnh từ cơ sở dữ liệu
-        echo "<!-- Debug: Raw HinhAnh value for {$row['TenSP']}: " . (isset($row['HinhAnh']) ? $row['HinhAnh'] : 'NULL') . " -->";
-        // Loại bỏ khoảng trắng ở đầu và cuối chuỗi HinhAnh
         $hinhAnh = isset($row['HinhAnh']) ? trim($row['HinhAnh']) : '';
-        echo "<!-- Debug: Trimmed HinhAnh value for {$row['TenSP']}: " . ($hinhAnh ?: 'NULL') . " -->";
-        // Kiểm tra xem HinhAnh có rỗng không
-        echo "<!-- Debug: Is HinhAnh empty after trim? " . (empty($hinhAnh) ? 'Yes' : 'No') . " -->";
-
-        // Xử lý đường dẫn ảnh
         $imagePath = !empty($hinhAnh) && is_string($hinhAnh) ? $hinhAnh : '/assets/imgs/default.png';
-        // Đảm bảo đường dẫn bắt đầu bằng /
         if ($imagePath && $imagePath[0] !== '/') {
             $imagePath = '/' . $imagePath;
         }
-        // Thêm tiền tố /TechShop/ vào đường dẫn ảnh để khớp với cấu trúc thư mục
         $displayImagePath = '/TechShop' . $imagePath;
-        echo "<!-- Debug: Final image path for {$row['TenSP']}: $displayImagePath -->";
-        echo "<!-- Debug: Link HinhAnh for {$row['TenSP']}: http://{$_SERVER['HTTP_HOST']}$displayImagePath -->";
 
-        // Tính giá mới nếu có giảm giá
         $giaMoi = !empty($row['PhanTramGiam']) && $row['PhanTramGiam'] > 0 && $row['PhanTramGiam'] < 100
             ? $row['DonGia'] * (1 - ($row['PhanTramGiam'] / 100))
             : $row['DonGia'];
 
         echo '
         <div class="col l-2 m-3 c-6 product-item">
-            <a href="Template/chi-tiet-sp/san-pham.php?maSP=' . htmlspecialchars($row['MaSP'])  . '" class="product-item-link">
+            <a href="Template/chi-tiet-sp/san-pham.php?maSP=' . htmlspecialchars($row['MaSP']) . '" class="product-item-link">
                 <div class="product-item-group">
                     <div class="product-item__mark-favourite"></div>
                     <div class="product-item-img" style="background-image: url(' . htmlspecialchars($displayImagePath) . ');"></div>
@@ -102,26 +89,13 @@ function addContainer() {
     
     // Hiển thị Gợi ý hôm nay
     foreach ($suggestions as $row) {
-        // Debug giá trị HinhAnh từ cơ sở dữ liệu
-        echo "<!-- Debug: Raw HinhAnh value for {$row['TenSP']}: " . (isset($row['HinhAnh']) ? $row['HinhAnh'] : 'NULL') . " -->";
-        // Loại bỏ khoảng trắng ở đầu và cuối chuỗi HinhAnh
         $hinhAnh = isset($row['HinhAnh']) ? trim($row['HinhAnh']) : '';
-        echo "<!-- Debug: Trimmed HinhAnh value for {$row['TenSP']}: " . ($hinhAnh ?: 'NULL') . " -->";
-        // Kiểm tra xem HinhAnh có rỗng không
-        echo "<!-- Debug: Is HinhAnh empty after trim? " . (empty($hinhAnh) ? 'Yes' : 'No') . " -->";
-
-        // Xử lý đường dẫn ảnh
         $imagePath = !empty($hinhAnh) && is_string($hinhAnh) ? $hinhAnh : '/assets/imgs/default.png';
-        // Đảm bảo đường dẫn bắt đầu bằng /
         if ($imagePath && $imagePath[0] !== '/') {
             $imagePath = '/' . $imagePath;
         }
-        // Thêm tiền tố /TechShop/ vào đường dẫn ảnh để khớp với cấu trúc thư mục
         $displayImagePath = '/TechShop' . $imagePath;
-        echo "<!-- Debug: Final image path for {$row['TenSP']}: $displayImagePath -->";
-        echo "<!-- Debug: Link HinhAnh for {$row['TenSP']}: http://{$_SERVER['HTTP_HOST']}$displayImagePath -->";
 
-        // Tính giá mới nếu có giảm giá
         $giaMoi = !empty($row['PhanTramGiam']) && $row['PhanTramGiam'] > 0 && $row['PhanTramGiam'] < 100
             ? $row['DonGia'] * (1 - ($row['PhanTramGiam'] / 100))
             : $row['DonGia'];
@@ -178,7 +152,7 @@ function addContainer() {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -193,8 +167,7 @@ function addContainer() {
 </head>
 <body>
     <div class="web6713">
-        <div class="header_first"></div>
-        <?php addHeader(''); ?>
+        <?php addHeader('', $db); ?>
         <section class="container">
             <div class="grid wide">
                 <div class="row">
@@ -203,10 +176,9 @@ function addContainer() {
                 </div>
             </div>
         </section>
-        <?php addFooter(); ?>
+        <?php addFooter(''); ?>
     </div>
     <script src="js/dungchung.js"></script>
-    <script src="js/cart.js"></script>
     <script src="js/trangchu.js"></script>
 </body>
 </html>

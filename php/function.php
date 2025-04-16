@@ -3,60 +3,59 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); 
 }
 
-function addHeader($basePath = '') {
-    // Kiểm tra nếu người dùng đã đăng nhập
+function addHeader($basePath = '', $db = null) {
     $isLoggedIn = isset($_SESSION['MaND']);
-    $taiKhoan = $isLoggedIn ? $_SESSION['TaiKhoan'] : 'Tài khoản';
+    $taiKhoan = $isLoggedIn ? htmlspecialchars($_SESSION['TaiKhoan']) : 'Tài khoản';
     $accountLink = $isLoggedIn ? $basePath . 'Template/Information.php' : $basePath . 'Template/formNK.php';
 
-    echo '
+    // Lấy lịch sử tìm kiếm
+    $searchHistory = [];
+    if ($db && $isLoggedIn) {
+        $userId = $_SESSION['MaND'];
+        $query = "SELECT keyword FROM search_history WHERE user_id = ? ORDER BY search_time DESC LIMIT 5";
+        $searchHistory = $db->get_list($query, [$userId]);
+    } elseif (!$isLoggedIn) {
+        $searchHistory = isset($_SESSION['search_history']) ? array_slice($_SESSION['search_history'], 0, 5) : [];
+    }
+
+    $historyItems = '';
+    foreach ($searchHistory as $item) {
+        $keyword = is_array($item) ? htmlspecialchars($item['keyword']) : htmlspecialchars($item);
+        $historyItems .= "<li class='header_navbar-search-history-item'><a href='{$basePath}Template/resultSearch.php?search=" . urlencode($keyword) . "'><i class='header_search-icon fa-solid fa-clock-rotate-left'></i> $keyword</a></li>";
+    }
+    if (empty($historyItems)) {
+        $historyItems = "<li class='header_navbar-search-history-item'>Chưa có lịch sử tìm kiếm</li>";
+    }
+
+    $header = <<<HTML
     <header class="header">
-        <div class="grid wide"> 
+        <div class="grid wide">
             <div class="header_navbar">
-                <div class="header_navbar-search">  
+                <div class="header_navbar-search">
                     <div class="header_width-search">
-                        <a href="' . $basePath . 'index.php" class="header_logo home-page">
-                            <img class="header_logo-img" src="' . $basePath . 'assets/imgs/logo.png" alt="ProTech-logo" width="96" height="40">
+                        <a href="{$basePath}index.php" class="header_logo home-page">
+                            <img class="header_logo-img" src="{$basePath}assets/imgs/logo.png" alt="ProTech-logo" width="96" height="40">
                         </a>
-                    </div> 
+                    </div>
                     <div class="header_search">
                         <i class="header_search-icon fa-solid fa-magnifying-glass"></i>
-                        <input type="text" class="header_search-input" placeholder="Nhập thông tin để tìm kiếm sản phẩm">
-                        <button type="button" class="header_search-button"> Tìm kiếm </button>  
+                        <input type="text" name="search" class="header_search-input" placeholder="Nhập thông tin để tìm kiếm sản phẩm">
+                        <button type="button" class="header_search-button">Tìm kiếm</button>
                         <div class="header_navbar-search-history">
                             <div class="header_navbar-search-history-heading">Lịch sử tìm kiếm</div>
                             <ul class="header_navbar-search-history-list">
-                                <li class="header_navbar-search-history-item">
-                                    <a href="#">
-                                        <i class="header_search-icon fa-solid fa-clock-rotate-left"></i> Iphone 14 promax
-                                    </a>
-                                </li>
-                                <li class="header_navbar-search-history-item">
-                                    <a href="#">
-                                        <i class="header_search-icon fa-solid fa-clock-rotate-left"></i> AirPod Pro 2
-                                    </a>
-                                </li>
-                                <li class="header_navbar-search-history-item">
-                                    <a href="#">
-                                        <i class="header_search-icon fa-solid fa-clock-rotate-left"></i> Laptop Dell Precision
-                                    </a>
-                                </li>
+                                {$historyItems}
                             </ul>
                         </div>
-                    </div>    
+                    </div>
                     <ul class="header_navbar-list">
                         <li class="header_navbar-item">
-                            <a href="#" class="header_navbar-icon-link">
-                                <i class="fa-solid fa-house"></i>
-                            </a>
-                            <a href="' . $basePath . 'index.php" class="header_navbar-icon-link header_navbar-link--strong home-page">Trang chủ</a>
+                            <a href="{$basePath}index.php" class="header_navbar-icon-link"><i class="fa-solid fa-house"></i> Trang chủ</a>
                         </li>
                         <li class="header_navbar-item">
-                            <a href="' . $accountLink . '" class="header_navbar-item-link">
-                                <a href="' . $accountLink . '" class="header_navbar-icon-link" id="account-icon-link">
-                                    <i class="fa-regular fa-face-smile-wink"></i>
-                                </a>
-                                <a href="' . $accountLink . '" class="header_navbar-icon-link header_navbar-link--strong" id="account-link">' . $taiKhoan . '</a>
+                            <a href="{$accountLink}" class="header_navbar-item-link">
+                                <i class="fa-regular fa-face-smile-wink"></i>
+                                <span class="header_navbar-icon-link header_navbar-link--strong" id="account-link">{$taiKhoan}</span>
                             </a>
                         </li>
                         <li class="header_navbar-item header_navbar-item-no-pointer">
@@ -67,47 +66,27 @@ function addHeader($basePath = '') {
                             </a>
                         </li>
                         <li class="header_navbar-item">
-                            <a href="' . $basePath . 'giohang.php" class="header_navbar-icon-link">
+                            <a href="{$basePath}giohang.php" class="header_navbar-icon-link">
                                 <i class="header_navbar-icon-cart fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span>
                             </a>
                         </li>
-                    </ul>                       
+                    </ul>
                 </div>
             </div>
             <div class="header_navbar-discount">
                 <ul class="header_navbar-discount-list">
-                    <li class="header_navbar-discount-item">
-                        <a href="#" class="header_navbar-dis-link header_navbar-dis-link--strong">Cam kết</a>
-                    </li>
-                    <li class="header_navbar-discount-item">
-                        <a href="#" class="header_navbar-dis-link">
-                            <i class="header_navbar-dis-icon fa-solid fa-award"></i> 100% hàng thật
-                        </a>
-                    </li>
-                    <li class="header_navbar-discount-item">
-                        <a href="#" class="header_navbar-dis-link">
-                            <i class="header_navbar-dis-icon fa-solid fa-circle-check"></i> Chính hãng
-                        </a>
-                    </li>
-                    <li class="header_navbar-discount-item">
-                        <a href="#" class="header_navbar-dis-link">
-                            <i class="header_navbar-dis-icon fa-solid fa-tags"></i> Giá ưu đãi
-                        </a>
-                    </li>
-                    <li class="header_navbar-discount-item">
-                        <a href="#" class="header_navbar-dis-link">
-                            <i class="header_navbar-dis-icon fa-solid fa-rotate"></i> 30 ngày đổi trả
-                        </a>
-                    </li>
-                    <li class="header_navbar-discount-item">
-                        <a href="#" class="header_navbar-dis-link">
-                            <i class="header_navbar-dis-icon fa-solid fa-truck-fast"></i> Giao nhanh trong 2h
-                        </a>
-                    </li>
+                    <li class="header_navbar-discount-item"><a href="#" class="header_navbar-dis-link header_navbar-dis-link--strong">Cam kết</a></li>
+                    <li class="header_navbar-discount-item"><a href="#" class="header_navbar-dis-link"><i class="header_navbar-dis-icon fa-solid fa-award"></i> 100% hàng thật</a></li>
+                    <li class="header_navbar-discount-item"><a href="#" class="header_navbar-dis-link"><i class="header_navbar-dis-icon fa-solid fa-circle-check"></i> Chính hãng</a></li>
+                    <li class="header_navbar-discount-item"><a href="#" class="header_navbar-dis-link"><i class="header_navbar-dis-icon fa-solid fa-tags"></i> Giá ưu đãi</a></li>
+                    <li class="header_navbar-discount-item"><a href="#" class="header_navbar-dis-link"><i class="header_navbar-dis-icon fa-solid fa-rotate"></i> 30 ngày đổi trả</a></li>
+                    <li class="header_navbar-discount-item"><a href="#" class="header_navbar-dis-link"><i class="header_navbar-dis-icon fa-solid fa-truck-fast"></i> Giao nhanh trong 2h</a></li>
                 </ul>
             </div>
         </div>
-    </header>';
+    </header>
+HTML;
+    echo $header;
 }
 
 function addCTN__cate($basePath = '') {
@@ -304,6 +283,27 @@ function generateCsrfToken() {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
     return $_SESSION['csrf_token'];
+}
+
+function saveSearchHistory($db, $keyword) {
+    if (empty($keyword)) return;
+    $keyword = trim($keyword);
+    $isLoggedIn = isset($_SESSION['MaND']);
+    if ($isLoggedIn) {
+        $userId = $_SESSION['MaND'];
+        $existing = $db->get_row("SELECT id FROM search_history WHERE user_id = ? AND keyword = ?", [$userId, $keyword]);
+        if ($existing) {
+            $db->query("UPDATE search_history SET search_time = NOW() WHERE id = ?", [$existing['id']]);
+        } else {
+            $db->query("INSERT INTO search_history (user_id, keyword) VALUES (?, ?)", [$userId, $keyword]);
+            $db->query("DELETE FROM search_history WHERE user_id = ? AND id NOT IN (SELECT id FROM (SELECT id FROM search_history WHERE user_id = ? ORDER BY search_time DESC LIMIT 5) AS sub)", [$userId, $userId]);
+        }
+    } else {
+        if (!isset($_SESSION['search_history'])) $_SESSION['search_history'] = [];
+        $_SESSION['search_history'] = array_diff($_SESSION['search_history'], [$keyword]);
+        array_unshift($_SESSION['search_history'], $keyword);
+        $_SESSION['search_history'] = array_slice($_SESSION['search_history'], 0, 5);
+    }
 }
 
 ?>

@@ -6,19 +6,17 @@ require_once "../../php/function.php";
 $db = new DB_driver();
 $db->connect();
 
-// Lấy categoryId từ tham số GET, mặc định là 1 nếu không có
-// $categoryId = isset($_GET['categoryId']) && (int)$_GET['categoryId'] > 0 ? (int)$_GET['categoryId'] : 1;
+// Lấy categoryId từ tham số GET, mặc định là 2 nếu không có
+$categoryId = isset($_GET['categoryId']) && (int)$_GET['categoryId'] > 0 ? (int)$_GET['categoryId'] : 2;
 
 // Lấy thông tin danh mục để hiển thị tiêu đề
-// $category = $db->get_row("SELECT TenLSP FROM loaisanpham WHERE MaLSP = ?", [$categoryId]);
-// if (!$category) {
-//     echo "Danh mục không tồn tại.";
-//     exit();
-// }
+$category = $db->get_row("SELECT TenLSP FROM loaisanpham WHERE MaLSP = ?", [$categoryId]);
+if (!$category) {
+    echo "Danh mục không tồn tại.";
+    exit();
+}
 
-
-$categoryId = 2; 
-$perPage = 10;  
+$perPage = 10;
 $page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $perPage;
 
@@ -30,7 +28,6 @@ $maxPrice = isset($_GET['maxPrice']) ? (int)$_GET['maxPrice'] : PHP_INT_MAX;
 $priceCondition = '';
 $params = [$categoryId];
 if ($minPrice > 0 || $maxPrice < PHP_INT_MAX) {
-    // Tính giá mới trong SQL: DonGia * (1 - COALESCE(PhanTramGiam, 0) / 100)
     $priceCondition = 'AND (DonGia * (1 - COALESCE(PhanTramGiam, 0) / 100)) BETWEEN ? AND ?';
     $params[] = $minPrice;
     $params[] = $maxPrice;
@@ -49,11 +46,11 @@ $products = $db->get_list($query, $params);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProTech - Laptop chính hãng</title>
+    <title>ProTech - <?php echo htmlspecialchars($category['TenLSP']); ?></title>
     <link rel="icon" type="image/x-icon" href="../../assets/imgs/logo-tab.png">
     <link rel="stylesheet" href="../../assets/css/base.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
@@ -64,25 +61,21 @@ $products = $db->get_list($query, $params);
 </head>
 <body>
     <div class="web6713">
-        <div class="header_first"></div>
-        <?php addHeader('../../'); ?>
+        <?php addHeader('../../', $db); ?>
         <section class="container">
             <div class="grid wide">
                 <div class="row">
                     <?php addCTN__cate('../../'); ?>
                     <div class="col l-10 m-12 c-12">
                         <header class="row container__menu title_menu">
-                            <!-- <span class="title"><?php echo htmlspecialchars($category['TenLSP']); ?></span> -->
-                            <span class="title">Laptop</span>
+                            <span class="title"><?php echo htmlspecialchars($category['TenLSP']); ?></span>
                         </header>
                         <article class="row protech container__product">
                             <header class="product-choice hide-on-mobile-table">
                                 <span class="product-filter">Sắp xếp theo</span>
                                 <div class="produce__btn-group">
                                     <section class="produce__btn-option poppular">
-                                        <button id="btn-more">
-                                            <i class="fa-solid fa-filter"></i>
-                                        </button>
+                                        <button id="btn-more"><i class="fa-solid fa-filter"></i></button>
                                     </section>
                                 </div>
                             </header>
@@ -164,43 +157,40 @@ $products = $db->get_list($query, $params);
                 <div>
                     <input type="text" class="search3" placeholder="Nhập thông tin để tìm kiếm sản phẩm">
                 </div>
-                <!-- Bộ lọc Hãng -->
                 <div class="filter-section">
                     <h3>Hãng</h3>
                     <div class="filter-options brand-options">
-                        <button>Samsung</button>
-                        <button>iPhone</button>
-                        <button>Oppo</button>
-                        <button>Tecno</button>
-                        <button>Nokia</button>
-                        <button>Masstel</button>
+                        <button data-brand="Dell">Dell</button>
+                        <button data-brand="HP">HP</button>
+                        <button data-brand="Asus">Asus</button>
+                        <button data-brand="Lenovo">Lenovo</button>
+                        <button data-brand="Acer">Acer</button>
+                        <button data-brand="MacBook">MacBook</button>
                     </div>
                 </div>
-                <!-- Bộ lọc Giá -->
                 <div class="filter-section">
                     <h3>Giá</h3>
                     <div class="filter-options price-range">
-                        <button data-min="0" data-max="2000000">Dưới 2 triệu</button>
-                        <button data-min="2000000" data-max="4000000">Từ 2 - 4 triệu</button>
-                        <button data-min="4000000" data-max="7000000">Từ 4 - 7 triệu</button>
-                        <button data-min="7000000" data-max="13000000">Từ 7 - 13 triệu</button>
-                        <button data-min="13000000" data-max="20000000">Từ 13 - 20 triệu</button>
-                        <button data-min="20000000" data-max="999999999">Trên 20 triệu</button>
+                        <button data-min="0" data-max="5000000">Dưới 5 triệu</button>
+                        <button data-min="5000000" data-max="10000000">Từ 5 - 10 triệu</button>
+                        <button data-min="10000000" data-max="15000000">Từ 10 - 15 triệu</button>
+                        <button data-min="15000000" data-max="20000000">Từ 15 - 20 triệu</button>
+                        <button data-min="20000000" data-max="30000000">Từ 20 - 30 triệu</button>
+                        <button data-min="30000000" data-max="999999999">Trên 30 triệu</button>
                     </div>
                     <div class="custom-price">
                         <p>Hoặc chọn mức giá phù hợp với bạn</p>
                         <div class="range-container">
-                            <input type="range" id="min-range" min="300000" max="50000000" value="<?php echo $minPrice ?: 300000; ?>" step="100000">
-                            <input type="range" id="max-range" min="300000" max="50000000" value="<?php echo $maxPrice < PHP_INT_MAX ? $maxPrice : 50000000; ?>" step="100000">
+                            <input type="range" id="min-range" min="300000" max="100000000" value="<?php echo $minPrice ?: 300000; ?>" step="100000">
+                            <input type="range" id="max-range" min="300000" max="100000000" value="<?php echo $maxPrice < PHP_INT_MAX ? $maxPrice : 100000000; ?>" step="100000">
                             <div class="progress-bar" id="progress"></div>
                         </div>
                         <div class="slider-labels">
                             <span id="min-label"><?php echo number_format($minPrice ?: 300000, 0, ',', '.'); ?>đ</span>
-                            <span id="max-label"><?php echo $maxPrice < PHP_INT_MAX ? number_format($maxPrice, 0, ',', '.') : '50.000.000'; ?>đ</span>
+                            <span id="max-label"><?php echo $maxPrice < PHP_INT_MAX ? number_format($maxPrice, 0, ',', '.') : '100.000.000'; ?>đ</span>
                         </div>
                     </div>
                 </div>
-                <!-- Nút Lưu và Hủy -->
                 <div class="btn-search2">
                     <button class="btn search2-save">Lưu</button>
                     <button class="btn search2-cancel">Hủy</button>
@@ -209,5 +199,9 @@ $products = $db->get_list($query, $params);
         </div>
     </div>
     <script src="../../js/template.js"></script>
+    <script>
+        // Truyền categoryId từ PHP sang JavaScript
+        const currentCategoryId = <?php echo json_encode($categoryId); ?>;
+    </script>
 </body>
 </html>

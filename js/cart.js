@@ -272,7 +272,7 @@
     }
     const btnSearch = document.querySelector('.header_search-button')
     btnSearch.addEventListener('click', ()=>{
-        window.location.href = `./Category/resultSearch.htm`;
+        window.location.href = `./Template/resultSearch.htm`;
     });
 
 
