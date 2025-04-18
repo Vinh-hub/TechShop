@@ -36,12 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit();
     }
 
-    // Kiểm tra quyền nếu đăng nhập với tư cách admin
-    if ($isAdmin && $user['MaQuyen'] != 2) {
-        echo json_encode(['success' => false, 'message' => 'Bạn không có quyền đăng nhập với tư cách admin.']);
-        exit();
-    }
-
     // Lưu thông tin người dùng vào session
     $_SESSION['MaND'] = $user['MaND'];
     $_SESSION['TaiKhoan'] = $user['TaiKhoan'];

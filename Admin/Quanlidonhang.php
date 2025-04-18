@@ -1,5 +1,5 @@
 <?php
-require_once '../DB_driver.php';
+require_once '../Backend/DB_driver.php';
 $db = new DB_driver();
 $db->connect();
 
@@ -7,7 +7,15 @@ $sql = "SELECT * FROM hoadon";
 $orders = $db->get_list($sql);
 ?>
 
-<!-- Trong phần <tbody> -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa Danh Mục</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
 <tbody>
     <?php foreach ($orders as $index => $order): ?>
         <tr>
@@ -34,3 +42,5 @@ $orders = $db->get_list($sql);
         </tr>
     <?php endforeach; ?>
 </tbody>
+</body>
+</html>

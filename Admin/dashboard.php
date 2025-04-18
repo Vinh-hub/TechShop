@@ -1,3 +1,31 @@
+<?php
+session_start();
+require_once "../BackEnd/DB_driver.php"; // Kết nối DB nếu cần kiểm tra quyền
+
+// Kiểm tra đăng nhập
+if (!isset($_SESSION['MaND'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+// Kiểm tra quyền admin theo MaQuyen = 2
+$db = new DB_driver();
+$db->connect();
+$userId = $_SESSION['MaND'];
+$user = $db->get_row("SELECT * FROM nguoidung WHERE MaND = ?", [$userId]);
+if (!$user || (isset($user['MaQuyen']) && $user['MaQuyen'] != 2)) {
+    header("Location: ../index.php");
+    exit();
+}
+
+// Xử lý đăng xuất
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    session_unset();
+    session_destroy();
+    header("Location: ../login.php");
+    exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,186 +43,97 @@
     <header>
         <div class="container">
             <div class="admin-box-icon" id="adminIcon">
-        <i class="fa-regular fa-user"></i><!-- Biểu tượng Admin -->
+                <i class="fa-regular fa-user"></i>
             </div>
-            
-            <!-- Hộp tài khoản Admin -->
             <div class="admin-box" id="adminBox">
                 <ul>
-                    <p> PV Admin </p>
-                    <li><a href="../login.php" onclick="logout()">Đăng xuất</a></li>
+                    <p><?php echo htmlspecialchars($user['HoTen'] ?? 'PV Admin'); ?></p>
+                    <li><a href="?action=logout">Đăng xuất</a></li>
                 </ul>
             </div>
             <div class="welcome">ProTech</div>
-        <nav>
-            <ul>
-                    <li><a href="Tongquan.php" class="nav-link" target="content-frame" data-target="profile">Tổng quan</a></li>
+            <nav>
+                <ul>
+                    <li><a href="Tongquan.php" class="nav-link" target="content-frame" data-target="overview">Tổng quan</a></li>
                     <li><a href="user.php" class="nav-link" target="content-frame" data-target="profile">User Profile</a></li>
                     <li><a href="Quanlidonhang.php" class="nav-link" target="content-frame" data-target="orders">Quản lí đơn hàng</a></li>
                     <li><a href="Quanlinguoidung.php" class="nav-link" target="content-frame" data-target="users">Quản lí người dùng</a></li>
-                    <!-- <li><a href="Quanlidanhmuc.php" class="nav-link" target="content-frame" data-target="users">Quản lí danh mục</a></li> -->
                     <li><a href="Quanlisanpham.php" class="nav-link" target="content-frame" data-target="products">Quản lí sản phẩm</a></li>
-                
-            </ul>
-        </nav>
-        </style>
-        <!-- Iframe to load external content -->
-        <iframe id="content-frame" name="content-frame" style="width:100%; height: 500px; border: none; margin-top: 30px;"></iframe>
+                </ul>
+            </nav>
+            <iframe id="content-frame" name="content-frame" style="width:100%; height: 500px; border: none; margin-top: 30px;"></iframe>
 
-        <div id="Tongquan" class="info-section">
+            <div id="overview" class="info-section"></div>
+            <div id="profile" class="info-section"></div>
+            <div id="orders" class="info-section"></div>
+            <div id="users" class="info-section"></div>
+            <div id="products" class="info-section"></div>
         </div>
-
-        <div id="profile" class="info-section">
-           
-        </div>
-        <div id="orders" class="info-section">
-    
-        </div>
-        <div id="users" class="info-section">
-           
-        </div>
-        <div id="products" class="info-section">
-           
-        </div>
-    </div>
-    <footer class="end__heading-end">
-        <div class="end__heading-end-information-group">
-            <span class="end__heading-end-information end__heading-end-information-name"><b>CÔNG TY PROTECH</b></span>
-            <span class="end__heading-end-information">© 2024 - Bản quyền thuộc về Công ty ProTech</span>
-    </div>
-</footer>
-</header>
+        <footer class="end__heading-end">
+            <div class="end__heading-end-information-group">
+                <span class="end__heading-end-information end__heading-end-information-name"><b>CÔNG TY PROTECH</b></span>
+                <span class="end__heading-end-information">© 2024 - Bản quyền thuộc về Công ty ProTech</span>
+            </div>
+        </footer>
+    </header>
     <script>
-       //ĐÓNG MỞ BOX ADMIN 
-    document.addEventListener("DOMContentLoaded", function() {
-    var adminIcon = document.getElementById('adminIcon');
-    var adminBox = document.getElementById('adminBox');
-
-    // Mở/đóng hộp Admin khi nhấn vào biểu tượng
-    adminIcon.addEventListener('click', function(event) {
-        event.stopPropagation(); // Ngăn chặn sự kiện click lan truyền
-
-        // Hiển thị hộp admin tại vị trí của biểu tượng
-        var rect = adminIcon.getBoundingClientRect(); // Lấy vị trí của biểu tượng
-        var top = rect.bottom + window.scrollY; // Vị trí phía dưới của biểu tượng
-        var left = rect.left + window.scrollX; // Vị trí bên trái của biểu tượng
-
-        adminBox.style.top = top + 'px';  // Cập nhật vị trí top
-        adminBox.style.left = left + 'px'; // Cập nhật vị trí left
-
-        // Tạo hiệu ứng hiển thị/ẩn hộp Admin
-        adminBox.style.display = (adminBox.style.display === 'block') ? 'none' : 'block';
-    });
-});
-
-// Hàm hiển thị thông báo khi nhấn vào "Change Password"
-function changePassword() {
-    alert("Bạn đã thay đổi mật khẩu.");
-}
-
-// Hàm hiển thị thông báo khi nhấn vào "Logout"
-function logout() {
-    alert("Bạn đã đăng xuất khỏi hệ thống.");
-}
-
-
-    </script>
-
-<!-- HIỂN THỊ CÁC LIST-->
-    <script>
+        // ĐÓNG MỞ BOX ADMIN
         document.addEventListener("DOMContentLoaded", function() {
-    // Lấy tất cả các liên kết trong menu
-    const navLinks = document.querySelectorAll("nav ul li a");
+            const adminIcon = document.getElementById('adminIcon');
+            const adminBox = document.getElementById('adminBox');
 
-    // Lặp qua tất cả các liên kết và thêm sự kiện click
-    navLinks.forEach(link => {
-        link.addEventListener("click", function(event) {
-            event.preventDefault(); // Ngăn việc tải lại trang
-
-            // Loại bỏ lớp 'active' khỏi tất cả các liên kết
-            navLinks.forEach(link => {
-                link.classList.remove("active");
+            adminIcon.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const rect = adminIcon.getBoundingClientRect();
+                const top = rect.bottom + window.scrollY;
+                const left = rect.left + window.scrollX;
+                adminBox.style.top = top + 'px';
+                adminBox.style.left = left + 'px';
+                adminBox.style.display = adminBox.style.display === 'block' ? 'none' : 'block';
             });
 
-            // Thêm lớp 'active' vào liên kết đã được nhấn
-            link.classList.add("active");
-
-            // Lấy giá trị của 'data-target' để xác định phần nội dung tương ứng
-            const target = link.getAttribute("data-target");
-
-            // Ẩn tất cả các phần nội dung
-            document.querySelectorAll(".info-section").forEach(section => {
-                section.classList.remove("active");
+            // Đóng hộp admin khi click ra ngoài
+            document.addEventListener('click', function(event) {
+                if (!adminBox.contains(event.target) && event.target !== adminIcon) {
+                    adminBox.style.display = 'none';
+                }
             });
-
-            // Hiển thị phần nội dung tương ứng
-            document.getElementById(target).classList.add("active");
-
-            // Cập nhật nội dung trong iframe nếu cần
-            const iframe = document.getElementById("content-frame");
-            iframe.src = link.href; // Chuyển đến trang mới trong iframe
         });
-    });
-});
-//Underline
-function setActive(link) {
-    // Remove the 'active' class from all links
-    const links = document.querySelectorAll('.nav-link');
-    links.forEach(link => link.classList.remove('active'));
-    
-    // Add the 'active' class to the clicked link
-    link.classList.add('active');
-}
 
-// Mở trang Tổng quan khi load trang
-window.addEventListener('load', function() {
-            // Khi trang được tải xong, tự động click vào trang "Tổng quan"
-            var overviewLink = document.querySelector('a[data-target="profile"]');
+        // HIỂN THỊ CÁC LIST
+        document.addEventListener("DOMContentLoaded", function() {
+            const navLinks = document.querySelectorAll("nav ul li a");
+
+            navLinks.forEach(link => {
+                link.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    navLinks.forEach(link => link.classList.remove("active"));
+                    link.classList.add("active");
+
+                    const target = link.getAttribute("data-target");
+                    document.querySelectorAll(".info-section").forEach(section => {
+                        section.classList.remove("active");
+                    });
+                    document.getElementById(target).classList.add("active");
+
+                    const iframe = document.getElementById("content-frame");
+                    iframe.src = link.href;
+                });
+            });
+        });
+
+        // Mở trang User Profile khi load trang
+        window.addEventListener('load', function() {
+            const overviewLink = document.querySelector('a[data-target="overview"]');
             if (overviewLink) {
                 overviewLink.click();
             }
         });
-  
-   </script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const ctx1 = document.getElementById('chart1').getContext('2d');
-    const ctx2 = document.getElementById('chart2').getContext('2d');
-    const ctx3 = document.getElementById('chart3').getContext('2d');
-
-    new Chart(ctx1, {
-        type: 'doughnut',
-        data: {
-            labels: ['Data1', 'Data2', 'Data3', 'Data4'],
-            datasets: [{
-                data: [25, 25, 25, 25],
-                backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745']
-            }]
-        }
-    });
-
-    new Chart(ctx2, {
-        type: 'line',
-        data: {
-            labels: [1, 2, 3, 4, 5],
-            datasets: [
-                {label: 'Desktop', data: [100, 200, 300, 400, 500], borderColor: '#007bff'},
-                {label: 'Mobile', data: [50, 150, 250, 350, 450], borderColor: '#28a745'}
-            ]
-        }
-    });
-
-    new Chart(ctx3, {
-        type: 'bar',
-        data: {
-            labels: [1, 2, 3, 4, 5],
-            datasets: [
-                {label: 'Data1', data: [50, 100, 150, 200, 250], backgroundColor: '#ffc107'},
-                {label: 'Data2', data: [20, 40, 60, 80, 100], backgroundColor: '#dc3545'}
-            ]
-        }
-    });
-</script>
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart.js sẽ được tải trong các trang con (Tongquan.php, v.v.)
+        // Xóa code Chart.js ở đây vì canvas không tồn tại
+    </script>
 </body>
 </html>
