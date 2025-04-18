@@ -1,156 +1,257 @@
+<?php
+session_start();
+require_once "../BackEnd/DB_driver.php";
+
+// Kiểm tra đăng nhập và quyền admin (MaQuyen = 3)
+if (!isset($_SESSION['MaND'])) {
+    $_SESSION['error'] = "Vui lòng đăng nhập.";
+    file_put_contents('debug.log', "Redirect to login.php from suaThongtinNguoidung.php at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+    header("Location: ../login.php");
+    exit();
+}
+
+$db = new DB_driver();
+$db->connect();
+
+try {
+    $user = $db->get_row("SELECT * FROM nguoidung WHERE MaND = ?", [$_SESSION['MaND']]);
+    if (!$user || $user['MaQuyen'] != 3) {
+        $_SESSION['error'] = !$user ? "Người dùng không tồn tại." : "Bạn không có quyền admin.";
+        file_put_contents('debug.log', "Redirect to index.php from suaThongtinNguoidung.php at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+        header("Location: ../index.php");
+        exit();
+    }
+} catch (Exception $e) {
+    $_SESSION['error'] = "Lỗi DB: " . $e->getMessage();
+    file_put_contents('debug.log', "Redirect to index.php: DB error in suaThongtinNguoidung.php at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+    header("Location: ../index.php");
+    exit();
+}
+
+// Lấy thông tin người dùng cần sửa
+if (!isset($_GET['MaND']) || !is_numeric($_GET['MaND'])) {
+    $_SESSION['error'] = "Không tìm thấy người dùng.";
+    header("Location: Quanlinguoidung.php");
+    exit();
+}
+
+$maND = (int)$_GET['MaND'];
+$editUser = $db->get_row("SELECT * FROM nguoidung WHERE MaND = ?", [$maND]);
+if (!$editUser) {
+    $_SESSION['error'] = "Người dùng không tồn tại.";
+    header("Location: Quanlinguoidung.php");
+    exit();
+}
+
+// Xử lý form chỉnh sửa
+$errors = [];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $taiKhoan = trim($_POST['tai_khoan'] ?? '');
+    // $hoTen = trim($_POST['ho_ten'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    // $soDienThoai = trim($_POST['so_dien_thoai'] ?? '');
+    $diaChi = trim($_POST['dia_chi'] ?? '');
+    $matKhau = trim($_POST['mat_khau'] ?? '');
+    $maQuyen = $_POST['ma_quyen'] ?? '';
+
+    // Kiểm tra dữ liệu
+    if (empty($taiKhoan)) $errors[] = "Tài khoản không được để trống.";
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Email không hợp lệ.";
+    // if (!empty($soDienThoai) && !preg_match('/^[0-9]{10,11}$/', $soDienThoai)) $errors[] = "Số điện thoại không hợp lệ.";
+    $roleMap = ['user' => 1, 'manager' => 2, 'admin' => 3, 'locked' => 5];
+    if (!isset($roleMap[$maQuyen])) $errors[] = "Vai trò không hợp lệ.";
+
+    // Kiểm tra trùng lặp (trừ chính người dùng đang sửa)
+    $existingUser = $db->get_row("SELECT * FROM nguoidung WHERE (TaiKhoan = ? OR Email = ?) AND MaND != ?", [$taiKhoan, $email, $maND]);
+    if ($existingUser) $errors[] = "Tài khoản hoặc email đã tồn tại.";
+
+    // Cập nhật dữ liệu
+    $data = [
+        'TaiKhoan' => $taiKhoan,
+        // 'HoTen' => $hoTen ?: null,
+        'Email' => $email,
+        // 'SoDienThoai' => $soDienThoai ?: null,
+        'DiaChi' => $diaChi ?: null,
+        'MaQuyen' => $roleMap[$maQuyen]
+    ];
+    if (!empty($matKhau)) {
+        $data['MatKhau'] = password_hash($matKhau, PASSWORD_DEFAULT);
+    }
+
+    // Cập nhật nếu không có lỗi
+    if (empty($errors)) {
+        try {
+            $result = $db->update('nguoidung', $data, 'MaND = ?', [$maND]);
+            if ($result) {
+                $_SESSION['message'] = "Cập nhật người dùng thành công!";
+                header("Location: Quanlinguoidung.php");
+                exit();
+            } else {
+                $errors[] = "Lỗi khi cập nhật người dùng.";
+            }
+        } catch (Exception $e) {
+            $errors[] = "Lỗi: " . $e->getMessage();
+        }
+    }
+}
+
+$db->dis_connect();
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Chỉnh Sửa Thông Tin</title>
+    <title>ProTech - Sửa Thông Tin Người Dùng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="/TechShop/assets/css/Dashboard.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f8fa;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f9;
+            box-sizing: border-box;
+            color: #333;
         }
-
-        .form-container {
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 40px;
             background-color: #ffffff;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .form-container h2 {
+        h1 {
             text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            font-size: 28px;
             margin-bottom: 20px;
-            color: #333333;
         }
-
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
-
         .form-group label {
+            font-size: 16px;
+            margin-bottom: 8px;
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555555;
         }
-
-        .form-group input, 
+        .form-group input,
         .form-group select {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .form-group input:focus, 
-        .form-group select:focus {
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             outline: none;
-            border-color: #007bff;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #3498db;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
-
         .form-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .form-actions button {
-            padding: 10px 15px;
+            padding: 12px;
+            font-size: 16px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            transition: background-color 0.3s ease;
         }
-
-        .form-actions .btn-submit {
-            background-color: #007bff;
-            color: #ffffff;
+        .btn-submit {
+            background-color: #3498db;
+            color: white;
+            width: 48%;
         }
-
-        .form-actions .btn-cancel {
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+        .btn-cancel {
             background-color: #6c757d;
-            color: #ffffff;
+            color: white;
+            width: 48%;
         }
-
-        .form-actions .btn-submit:hover {
-            background-color: #0056b3;
-        }
-
-        .form-actions .btn-cancel:hover {
+        .btn-cancel:hover {
             background-color: #5a6268;
         }
+        .error {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
     </style>
-    <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.querySelector('form');
-        
-        // Lắng nghe sự kiện submit form
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();  // Ngừng gửi form mặc định
-
-            // Hiển thị thông báo alert
-            alert('Thông tin đã được lưu thành công!');
-            
-            // Quay về trang Quanlinguoidung.php
-            window.location.href = 'Quanlinguoidung.php';
-        });
-
-        // Lắng nghe sự kiện click vào nút hủy
-        const cancelButton = document.querySelector('.btn-cancel');
-        cancelButton.addEventListener('click', function() {
-            // Quay về trang Quanlinguoidung.php mà không có thông báo
-            window.location.href = 'Quanlinguoidung.php';
-        });
-    });
-
-
-    </script>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Chỉnh Sửa Thông Tin</h2>
-        <form action="#" method="POST">
-            <div class="form-group">
-                <label for="name">Tên:</label>
-                <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" value="Trần Thị Ngọc" required>
+    <div class="container">
+        <h1>Sửa Thông Tin Người Dùng</h1>
+        <?php if (!empty($errors)): ?>
+            <div class="error">
+                <?= implode('<br>', array_map('htmlspecialchars', $errors)) ?>
             </div>
+        <?php endif; ?>
+        <form id="userForm" method="POST">
             <div class="form-group">
-                <label for="address">Địa chỉ:</label>
-                <input type="text" id="address" name="address" placeholder="Nhập địa chỉ của bạn" value="45, Long Hòa, Cần Đước, Long An" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Số điện thoại:</label>
-                <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại của bạn" value="0987654321" required>
+                <label for="tai_khoan">Tài khoản:</label>
+                <input type="text" id="tai_khoan" name="tai_khoan" placeholder="Nhập tài khoản" value="<?= htmlspecialchars($editUser['TaiKhoan'] ?? '') ?>" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Nhập email của bạn" value="b@example.com" required>
+                <input type="email" id="email" name="email" placeholder="Nhập email" value="<?= htmlspecialchars($editUser['Email'] ?? '') ?>" required>
             </div>
             <div class="form-group">
-                <label for="role">Vai trò:</label>
-                <select id="role" name="role" required>
-                    <option value="">-- Chọn vai trò --</option>
-                    <option value="admin">Quản trị viên</option>
-                    <option value="editor">Admin</option>
-                    <option value="user" selected>Khách hàng</option>
+                <label for="dia_chi">Địa chỉ:</label>
+                <input type="text" id="dia_chi" name="dia_chi" placeholder="Nhập địa chỉ" value="<?= htmlspecialchars($editUser['DiaChi'] ?? '') ?>">
+            </div>
+            <div class="form-group">
+                <label for="mat_khau">Mật khẩu mới (để trống nếu không đổi):</label>
+                <input type="password" id="mat_khau" name="mat_khau" placeholder="Nhập mật khẩu mới">
+            </div>
+            <div class="form-group">
+                <label for="ma_quyen">Vai trò:</label>
+                <select id="ma_quyen" name="ma_quyen" required>
+                    <option value="user" <?= $editUser['MaQuyen'] == 1 ? 'selected' : '' ?>>Khách hàng</option>
+                    <option value="manager" <?= $editUser['MaQuyen'] == 2 ? 'selected' : '' ?>>Quản trị viên</option>
+                    <option value="admin" <?= $editUser['MaQuyen'] == 3 ? 'selected' : '' ?>>Admin</option>
+                    <option value="locked" <?= $editUser['MaQuyen'] == 5 ? 'selected' : '' ?>>Khóa</option>
                 </select>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn-submit">Lưu Thay Đổi</button>
-                <button type="button" class="btn-cancel">Hủy</button>
+                <button type="submit" class="btn-submit">Lưu thay đổi</button>
+                <button type="button" class="btn-cancel" onclick="window.location.href='Quanlinguoidung.php'">Hủy</button>
             </div>
         </form>
     </div>
+
+    <!-- <footer class="end__heading-end">
+        <div class="end__heading-end-information-group">
+            <span class="end__heading-end-information end__heading-end-information-name"><b>CÔNG TY PROTECH</b></span>
+            <span class="end__heading-end-information">© 2024 - Bản quyền thuộc về Công ty ProTech</span>
+        </div>
+    </footer> -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('userForm');
+            form.addEventListener('submit', function(event) {
+                // Xử lý form ở server-side, không cần alert
+            });
+        });
+    </script>
 </body>
 </html>

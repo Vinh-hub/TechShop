@@ -13,8 +13,8 @@ $db = new DB_driver();
 $db->connect();
 $userId = $_SESSION['MaND'];
 $user = $db->get_row("SELECT * FROM nguoidung WHERE MaND = ?", [$userId]);
-if (!$user || (isset($user['MaQuyen']) && $user['MaQuyen'] != 2)) {
-    header("Location: ../index.php");
+if (!$user || (isset($user['MaQuyen']) && !in_array($user['MaQuyen'], [2, 3]))) {
+    header("Location: ../login.php");
     exit();
 }
 

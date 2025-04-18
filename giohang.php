@@ -70,8 +70,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['maGH'
 
 // Lấy danh sách sản phẩm trong giỏ hàng
 $cartItems = $db->get_list(
-    "SELECT g.MaGH, g.MaSP, g.SoLuong, s.TenSP, s.DonGia, s.PhanTramGiam, s.HinhAnh 
-     FROM giohang g 
+    "SELECT ct.MaHD, ct.MaSP, ct.SoLuong, s.TenSP, s.DonGia, s.PhanTramGiam, s.HinhAnh 
+     FROM chitiethoadon ct
      JOIN sanpham s ON g.MaSP = s.MaSP 
      WHERE g.MaND = ?",
     [$maND]

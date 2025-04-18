@@ -37,7 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['admin_login'])) {
 
         if (empty($login_errors)) {
             try {
-                $user = $db->get_row("SELECT * FROM nguoidung WHERE TaiKhoan = ? AND MaQuyen = ? AND TrangThai = ?", [$username_input, 2, 1]);
+                $user = $db->get_row("SELECT * FROM nguoidung WHERE TaiKhoan = ? AND MaQuyen IN (?, ?) AND TrangThai = ?", [$username_input, 2, 3, 1]);
+
 
                 if ($user && password_verify($password_input, $user['MatKhau'])) {
                     $_SESSION['admin'] = $user;

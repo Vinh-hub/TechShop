@@ -1,9 +1,22 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once "../BackEnd/DB_driver.php";
 
-// Tạo đối tượng DB_driver và kết nối
+// Kiểm tra đăng nhập admin
+if (!isset($_SESSION['MaND'])) {
+    header("Location: ../login.php");
+    exit();
+}
 $db = new DB_driver();
 $db->connect();
+$user = $db->get_row("SELECT * FROM nguoidung WHERE MaND = ?", [$_SESSION['MaND']]);
+if (!$user || !in_array((int)$user['MaQuyen'], [2, 3])) {
+    header("Location: ../login.php");
+    exit();
+}
+
 
 // Lấy từ khóa tìm kiếm từ GET (nếu có)
 $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
